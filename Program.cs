@@ -32,7 +32,7 @@ while (true)
             Console.WriteLine("Saindo do programa...");
             break;
         case "1":
-            // AdicionarDespesa(connection);
+            despesa.CadastrarDespesa(connection);
             break;
         case "2":
             // LerDespesas(connection);

@@ -1,3 +1,4 @@
+using MySqlConnector;
 class Despesa
 {
     private decimal valor;
@@ -79,6 +80,8 @@ class Despesa
 // MÉTODOS 
     public List<Despesa> LerDespesas(MySqlConnection connection)
     {
+        connection.Open();
+
         var lista = new List<Despesa>();
         string sql = "SELECT * FROM despesas";
         
@@ -93,15 +96,64 @@ class Despesa
             despesa.Data = reader.GetDateTime("data");
             lista.Add(despesa);
         }
+        connection.Close();
         return lista;
     }
 
 
 
 
+    public void SalvarDespesa(MySqlConnection connection)
+    {
+        connection.Open();
+
+        string sql = "INSERT INTO despesas (valor, descricao, categoria, data) VALUES (@valor, @descricao, @categoria, @data)";
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@valor", this.valor);
+        command.Parameters.AddWithValue("@descricao", this.descricao);
+        command.Parameters.AddWithValue("@categoria", this.categoria);
+        command.Parameters.AddWithValue("@data", this.data);
+        command.ExecuteNonQuery();
+
+        connection.Close();
+    }
 
 
+    public void CadastrarDespesa(MySqlConnection connection)
+    {
+        connection.Open();
 
+        Console.WriteLine();
+        Console.Write("Digite o valor da despesa (Em reais, e apenas números): ");
+        this.Valor = Convert.ToDecimal(Console.ReadLine());
+        if (this.Valor <= 0)
+        {
+            Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
+            return;
+        }
+        if (!decimal.TryParse(Console.ReadLine(), out decimal valor))
+        {
+            Console.WriteLine("Digite apenas números para o valor da despesa.");
+            return;
+        }
+
+        Console.WriteLine();
+        Console.Write("Digite a descrição da despesa: ");
+        this.Descricao = Console.ReadLine();
+
+        Console.WriteLine();
+        Console.Write("Digite a categoria da despesa (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
+        this.Categoria = Console.ReadLine();
+
+        Console.WriteLine();
+        Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
+        this.Data = DateTime.Parse(Console.ReadLine());
+
+        this.SalvarDespesa(connection);
+        Console.WriteLine("Despesa cadastrada com sucesso!");
+
+        connection.Close();
+    }
 
 
 
