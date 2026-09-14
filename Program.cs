@@ -22,3 +22,13 @@ catch (Exception ex)
 
 
 // MENU //
+Console.WriteLine("Bem-vindo ao Controle de Despesas!");
+Console.WriteLine("Escolha uma opção:");    
+Console.WriteLine("0 - Sair");
+Console.WriteLine("1 - Cadastrar despesa");
+Console.WriteLine("2 - Listar despesas");
+Console.WriteLine("3 - Atualizar despesas");
+Console.WriteLine("4 - Excluir despesas");
+
+
+

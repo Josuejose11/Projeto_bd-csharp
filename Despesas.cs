@@ -5,6 +5,7 @@ class Despesa
     private string categoria;
     private DateTime data;
 
+//CONSTRUTOR
     public Despesa(decimal valor, string descricao, string categoria, DateTime data)
     {
         this.valor = valor;
@@ -12,6 +13,8 @@ class Despesa
         this.categoria = categoria;
         this.data = data;
     }
+    
+// GET E SET 
     public decimal Valor
     {
         get { return valor; }
@@ -49,7 +52,18 @@ class Despesa
     public string Categoria 
     {
         get { return categoria; }
-        set { categoria = value; }
+        set 
+        { 
+            string[] categoriasValidas = { "alimentação","alimentacao","alimentaçao","alimentacão", "transporte", "saúde","saude", "educação","educaçao","educacão", "lazer" };
+            if (categoriasValidas.Contains(value.ToLower()))
+            {
+                categoria = value;
+            }
+            else
+            {
+                Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer, Outros.\nTente novamente.");
+            }
+        }
     }
     public DateTime Data 
     {
