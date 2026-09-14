@@ -3,8 +3,8 @@ using MySqlConnector;
 class Despesa
 {
     private decimal valor;
-    private string descricao= "";
-    private string categoria= "";
+    private string descricao = "";
+    private string categoria = "";
     private DateTime data;
 
 //CONSTRUTOR
@@ -78,7 +78,6 @@ class Despesa
         set { data = value; }
     }
 
-
 // MÉTODOS 
 
     // Ler despesas do banco de dados
@@ -104,6 +103,7 @@ class Despesa
         if (lista.Count == 0)
         {
             Console.WriteLine("Nenhuma despesa cadastrada.");
+            connection.Close();
             return;
         }
 
@@ -138,7 +138,6 @@ class Despesa
 
     public void CadastrarDespesa(MySqlConnection connection)
     {
-        connection.Open();
 
         Console.WriteLine();
         Console.Write("Digite o valor da despesa (Em reais, e apenas números): ");
@@ -148,11 +147,8 @@ class Despesa
             Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
             return;
         }
-        if (!decimal.TryParse(Console.ReadLine(), out decimal valor))
-        {
-            Console.WriteLine("Digite apenas números para o valor da despesa.");
-            return;
-        }
+        
+        
 
         Console.WriteLine();
         Console.Write("Digite a descrição da despesa: ");
@@ -169,6 +165,8 @@ class Despesa
         this.SalvarDespesa(connection);
         Console.WriteLine("Despesa cadastrada com sucesso!");
 
-        connection.Close();
+       
     }
 }
+
+

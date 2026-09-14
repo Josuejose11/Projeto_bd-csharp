@@ -10,7 +10,7 @@ string connectionString = """
     """;
 
 using var connection = new MySqlConnection(connectionString);
-                 
+connection.Open();                  
 
 
 // MENU //
@@ -30,21 +30,21 @@ while (true)
     {
         case "0":
             Console.WriteLine("Saindo do programa...");
-            Environment.Exit(0);
+            break;
         case "1":
             despesa.CadastrarDespesa(connection);
-            
+            break;
         case "2":
             despesa.LerDespesas(connection);
-            
+            break;
         case "3":
             // AtualizarDespesa(connection);
-            
+            break;
         case "4":
             // ExcluirDespesa(connection);
-            
+            break;
         default:
             Console.WriteLine("Opção inválida. Tente novamente.");
-            continue;
+            break;
     }
 }
