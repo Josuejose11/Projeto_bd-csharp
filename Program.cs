@@ -4,7 +4,7 @@ using MySqlConnector;
 string connectionString = """
     Server=127.0.0.1;
     Port=3306;
-    Database=controle_despesa;
+    Database=controle_despesas;
     User ID=root;
     Password=Senac2026;
     """;
