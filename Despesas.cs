@@ -1,11 +1,12 @@
 class Despesa
 {
     private decimal valor;
-    private string descricao;
-    private string categoria;
+    private string? descricao;
+    private string? categoria;
     private DateTime data;
 
 //CONSTRUTOR
+    // Com parametros
     public Despesa(decimal valor, string descricao, string categoria, DateTime data)
     {
         this.valor = valor;
@@ -13,7 +14,11 @@ class Despesa
         this.categoria = categoria;
         this.data = data;
     }
-    
+    // Sem parametros
+    public Despesa()
+    {
+    }
+
 // GET E SET 
     public decimal Valor
     {
@@ -70,4 +75,36 @@ class Despesa
         get { return data; }
         set { data = value; }
     }
+
+// MÉTODOS 
+    public List<Despesa> LerDespesas(MySqlConnection connection)
+    {
+        var lista = new List<Despesa>();
+        string sql = "SELECT * FROM despesas";
+        
+        using var command = new MySqlCommand(sql, connection);
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            var despesa = new Despesa();
+            despesa.Valor = reader.GetDecimal("valor");
+            despesa.Descricao = reader.GetString("descricao");
+            despesa.Categoria = reader.GetString("categoria");
+            despesa.Data = reader.GetDateTime("data");
+            lista.Add(despesa);
+        }
+        return lista;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

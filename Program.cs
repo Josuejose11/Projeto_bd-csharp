@@ -11,24 +11,41 @@ string connectionString = """
 
 using var connection = new MySqlConnection(connectionString);
 
-try
-{
-    connection.Open();
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Erro: {ex.Message}");
-}
 
 
 // MENU //
 Console.WriteLine("Bem-vindo ao Controle de Despesas!");
-Console.WriteLine("Escolha uma opção:");    
-Console.WriteLine("0 - Sair");
-Console.WriteLine("1 - Cadastrar despesa");
-Console.WriteLine("2 - Listar despesas");
-Console.WriteLine("3 - Atualizar despesas");
-Console.WriteLine("4 - Excluir despesas");
+var despesa = new Despesa();
+while (true)
+{   
+    Console.WriteLine("Escolha uma opção:");    
+    Console.WriteLine(" | 0 - Sair");
+    Console.WriteLine(" | 1 - Cadastrar despesa");
+    Console.WriteLine(" | 2 - Listar todas as despesas");
+    Console.WriteLine(" | 3 - Atualizar despesa");
+    Console.WriteLine(" | 4 - Excluir despesa");
+    Console.Write(" | Escreva aqui: ");
 
-
+    switch (Console.ReadLine())
+    {
+        case "0":
+            Console.WriteLine("Saindo do programa...");
+            break;
+        case "1":
+            // AdicionarDespesa(connection);
+            break;
+        case "2":
+            // LerDespesas(connection);
+            break;
+        case "3":
+            // AtualizarDespesa(connection);
+            break;
+        case "4":
+            // ExcluirDespesa(connection);
+            break;
+        default:
+            Console.WriteLine("Opção inválida. Tente novamente.");
+            break;
+    }
+}
 
