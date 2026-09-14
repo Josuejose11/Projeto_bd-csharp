@@ -1,8 +1,10 @@
+using MySqlConnector;
+
 class Despesa
 {
     private decimal valor;
-    private string? descricao;
-    private string? categoria;
+    private string descricao= "";
+    private string categoria= "";
     private DateTime data;
 
 //CONSTRUTOR
@@ -77,11 +79,13 @@ class Despesa
     }
 
 // MÉTODOS 
-    public List<Despesa> LerDespesas(MySqlConnection connection)
+
+    // Ler despesas do banco de dados
+    public void LerDespesas(MySqlConnection connection)
     {
         var lista = new List<Despesa>();
         string sql = "SELECT * FROM despesas";
-        
+                                 
         using var command = new MySqlCommand(sql, connection);
         using var reader = command.ExecuteReader();
         while (reader.Read())
@@ -93,18 +97,17 @@ class Despesa
             despesa.Data = reader.GetDateTime("data");
             lista.Add(despesa);
         }
-        return lista;
+
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("Nenhuma despesa cadastrada.");
+            return;
+        }
+
+        Console.WriteLine("Despesas cadastradas:");
+        foreach (var d in lista)
+        {
+            Console.WriteLine($" - {d.Descricao}: R$ {d.Valor:F2} ({d.Categoria}) - {d.Data:dd/MM/yyyy}");
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

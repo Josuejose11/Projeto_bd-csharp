@@ -10,7 +10,7 @@ string connectionString = """
     """;
 
 using var connection = new MySqlConnection(connectionString);
-
+connection.Open();                  
 
 
 // MENU //
@@ -35,7 +35,7 @@ while (true)
             // AdicionarDespesa(connection);
             break;
         case "2":
-            // LerDespesas(connection);
+            despesa.LerDespesas(connection);
             break;
         case "3":
             // AtualizarDespesa(connection);
@@ -48,4 +48,3 @@ while (true)
             break;
     }
 }
-
