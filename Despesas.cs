@@ -2,8 +2,10 @@ using MySqlConnector;
 
 class Despesa
 {
+    private int id;
     private decimal valor;
     private string? descricao;
+    private string titulo;
     private string categoria;
     private DateTime data;
 
@@ -22,6 +24,11 @@ class Despesa
     }
 
 // GET E SET 
+    private int Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
     public decimal Valor
     {
         get { return valor; }
@@ -39,7 +46,11 @@ class Despesa
         get { return descricao; }
         set 
         {
-            if (value.Length > 0)
+            if (string.IsNullOrEmpty(value))
+            {
+                descricao = null;
+            }
+            else if (value.Length > 0)
             { 
                 if (value.Length > 300)
                 {
@@ -77,7 +88,21 @@ class Despesa
         get { return data; }
         set { data = value; }
     }
-
+    public string Titulo
+    {
+        get { return titulo; }
+        set 
+        { 
+            if (string.IsNullOrEmpty(value))
+            {
+                Console.WriteLine("O título da despesa não pode ser vazio.");
+            }
+            else
+            {
+                titulo = value;
+            }
+        }
+    }
 
         /////////////
         // MÉTODOS // 
@@ -96,10 +121,12 @@ class Despesa
         while (reader.Read())
         {
             var despesa = new Despesa();
-            despesa.Valor = reader.GetDecimal("valor");
-            despesa.Descricao = reader.GetString("descricao");
-            despesa.Categoria = reader.GetString("categoria");
-            despesa.Data = reader.GetDateTime("data");
+            despesa.Id = reader.GetInt32("id_dps");
+            despesa.Valor = reader.GetDecimal("valor_dps");
+            despesa.Titulo = reader.GetString("titulo_dps");
+            despesa.Descricao = reader.IsDBNull(reader.GetOrdinal("descricao_dps")) ? null : reader.GetString("descricao_dps");
+            despesa.Categoria = reader.GetString("categoria_dps");
+            despesa.Data = reader.GetDateTime("data_dps");
             lista.Add(despesa);
         }
     
@@ -113,7 +140,7 @@ class Despesa
         Console.WriteLine("Despesas cadastradas:");
         foreach (var d in lista)
         {
-            Console.WriteLine($" - {d.Descricao}: R$ {d.Valor:F2} ({d.Categoria}) - {d.Data:dd/MM/yyyy}");
+            Console.WriteLine($" {d.Id} - {d.Titulo}: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy}");
         }
     
         connection.Close();
@@ -125,9 +152,10 @@ class Despesa
     {
         connection.Open();
 
-        string sql = "INSERT INTO despesas (valor, descricao, categoria, data) VALUES (@valor, @descricao, @categoria, @data)";
+        string sql = "INSERT INTO despesas (valor_dps, titulo_dps, descricao_dps, categoria_dps, data_dps) VALUES (@valor, @titulo, @descricao, @categoria, @data)";
         using var command = new MySqlCommand(sql, connection);
         command.Parameters.AddWithValue("@valor", this.valor);
+        command.Parameters.AddWithValue("@titulo", this.titulo);
         command.Parameters.AddWithValue("@descricao", this.descricao);
         command.Parameters.AddWithValue("@categoria", this.categoria);
         command.Parameters.AddWithValue("@data", this.data);
@@ -142,16 +170,16 @@ class Despesa
         // Valor da despesa
         while (true)
         {
-            Console.WriteLine();
             Console.Write("Digite o valor da despesa (Em reais, e apenas números): ");
             decimal valorDespesa = 0;
             try
             {
-                valorDespesa = decimal.Parse(Console.ReadLine());
+                valorDespesa = decimal.Parse(Console.ReadLine().Trim());
             }
             catch (FormatException)
             {
                 Console.WriteLine("Formato de valor inválido. Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
 
@@ -159,12 +187,14 @@ class Despesa
             if (string.IsNullOrWhiteSpace(valorDespesa.ToString()) || valorDespesa <= 0)
             {
                 Console.WriteLine("Digite um valor válido. Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
 
-            if (this.Valor <= 0)
+            if (valorDespesa <= 0)
             {
                 Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
             
@@ -182,20 +212,35 @@ class Despesa
             break;
         }
 
+        // Titulo da despesa
+        while (true)
+        {
+            Console.Write("Digite o título da despesa: ");
+            string titulo = Console.ReadLine().Trim();
+            if (titulo == "")    
+            {
+                Console.WriteLine("Título inválido. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+            this.Titulo = titulo; 
+            break;
+        }
+
         // categoria da despesa
         while (true)
         {
             // Lista de categorias válidas
             string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
             
-            Console.WriteLine();
             Console.Write("Digite a categoria da despesa (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
-            string categoria = Console.ReadLine();
+            string categoria = Console.ReadLine().ToLower().Trim();
 
             // validacao
             if (string.IsNullOrWhiteSpace(categoria))
             {
                 Console.WriteLine("Valor inválido, Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
             
@@ -206,6 +251,7 @@ class Despesa
             else
             {
                 Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
             break;
@@ -214,12 +260,12 @@ class Despesa
         // Descrição da despesa
         while (true)
         {
-            Console.WriteLine();
             Console.Write("Digite a descrição da despesa (Digite 0 caso não queira informar): ");
-            string descricao = Console.ReadLine();
+            string descricao = Console.ReadLine().Trim();
             if (descricao == "")    
             {
                 Console.WriteLine("Descrição inválida. Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
             this.Descricao = descricao == "0" ? null : descricao;
@@ -229,25 +275,24 @@ class Despesa
         // Data da despesa
         while (true)
         {
-            Console.WriteLine();
             Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
             try
             {
-                DateTime data = DateTime.Parse(Console.ReadLine());
+                DateTime data = DateTime.Parse(Console.ReadLine().Trim());
                 this.Data = data ;
                 break;
             }
             catch (FormatException)
             {
                 Console.WriteLine("Formato de data inválido. Tente novamente.");
+                Console.WriteLine("---------------");
                 continue;
             }
         }
 
         this.SalvarDespesa(connection);
         Console.WriteLine("Despesa cadastrada com sucesso!");
-        
-       
+
     }
 }
 
