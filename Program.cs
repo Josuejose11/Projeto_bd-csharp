@@ -18,7 +18,7 @@ Console.WriteLine("Bem-vindo ao Controle de Despesas!");
 var despesa = new Despesa();
 while (true)
 {   
-    Console.WriteLine("Escolha uma opção:");    
+    Console.WriteLine("Em nosso sistema você pode ultilizar da maneira que desejar \nPara isso, escolha uma das opções abaixo:");    
     Console.WriteLine(" | 0 - Sair");
     Console.WriteLine(" | 1 - Cadastrar despesa");
     Console.WriteLine(" | 2 - Listar todas as despesas");

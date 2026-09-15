@@ -3,8 +3,8 @@ using MySqlConnector;
 class Despesa
 {
     private decimal valor;
-    private string descricao = "";
-    private string categoria = "";
+    private string? descricao;
+    private string categoria;
     private DateTime data;
 
 //CONSTRUTOR
@@ -78,7 +78,10 @@ class Despesa
         set { data = value; }
     }
 
-// MÉTODOS 
+
+        /////////////
+        // MÉTODOS // 
+        /////////////
 
     // Ler despesas do banco de dados
     public void LerDespesas(MySqlConnection connection)
@@ -117,9 +120,7 @@ class Despesa
         
     }
 
-
-
-
+    // metodo para salvar no banco de dados
     public void SalvarDespesa(MySqlConnection connection)
     {
         connection.Open();
@@ -135,36 +136,117 @@ class Despesa
         connection.Close();
     }
 
-
+    // metodo para cadastrar despesa, pegar os dados do usuario
     public void CadastrarDespesa(MySqlConnection connection)
     {
-
-        Console.WriteLine();
-        Console.Write("Digite o valor da despesa (Em reais, e apenas números): ");
-        this.Valor = Convert.ToDecimal(Console.ReadLine());
-        if (this.Valor <= 0)
+        // Valor da despesa
+        while (true)
         {
-            Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
-            return;
+            Console.WriteLine();
+            Console.Write("Digite o valor da despesa (Em reais, e apenas números): ");
+            decimal valorDespesa = 0;
+            try
+            {
+                valorDespesa = decimal.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Formato de valor inválido. Tente novamente.");
+                continue;
+            }
+
+            // validacao
+            if (string.IsNullOrWhiteSpace(valorDespesa.ToString()) || valorDespesa <= 0)
+            {
+                Console.WriteLine("Digite um valor válido. Tente novamente.");
+                continue;
+            }
+
+            if (this.Valor <= 0)
+            {
+                Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
+                continue;
+            }
+            
+            //  define o valor do atributo
+            try
+            {
+                this.Valor = valorDespesa;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Formato de valor inválido. Tente novamente.");
+                continue;
+            }
+           
+            break;
         }
-        
-        
 
-        Console.WriteLine();
-        Console.Write("Digite a descrição da despesa: ");
-        this.Descricao = Console.ReadLine();
+        // categoria da despesa
+        while (true)
+        {
+            // Lista de categorias válidas
+            string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
+            
+            Console.WriteLine();
+            Console.Write("Digite a categoria da despesa (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
+            string categoria = Console.ReadLine();
 
-        Console.WriteLine();
-        Console.Write("Digite a categoria da despesa (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
-        this.Categoria = Console.ReadLine();
+            // validacao
+            if (string.IsNullOrWhiteSpace(categoria))
+            {
+                Console.WriteLine("Valor inválido, Tente novamente.");
+                continue;
+            }
+            
+            if (categoriasValidas.Contains(categoria.ToLower()))
+            {
+                this.Categoria = categoria;
+            }
+            else
+            {
+                Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
+                continue;
+            }
+            break;
+        }
 
-        Console.WriteLine();
-        Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
-        this.Data = DateTime.Parse(Console.ReadLine());
+        // Descrição da despesa
+        while (true)
+        {
+            Console.WriteLine();
+            Console.Write("Digite a descrição da despesa (Digite 0 caso não queira informar): ");
+            string descricao = Console.ReadLine();
+            if (descricao == "")    
+            {
+                Console.WriteLine("Descrição inválida. Tente novamente.");
+                continue;
+            }
+            this.Descricao = descricao == "0" ? null : descricao;
+            break;
+        }
+
+        // Data da despesa
+        while (true)
+        {
+            Console.WriteLine();
+            Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
+            try
+            {
+                DateTime data = DateTime.Parse(Console.ReadLine());
+                this.Data = data ;
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Formato de data inválido. Tente novamente.");
+                continue;
+            }
+        }
 
         this.SalvarDespesa(connection);
         Console.WriteLine("Despesa cadastrada com sucesso!");
-
+        
        
     }
 }
