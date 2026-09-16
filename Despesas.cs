@@ -135,6 +135,7 @@ class Despesa
         if (lista.Count == 0)
         {
             Console.WriteLine("Nenhuma despesa cadastrada.");
+            Console.WriteLine("---------------");
             connection.Close();
             return;
         }
@@ -142,9 +143,9 @@ class Despesa
         Console.WriteLine("Despesas cadastradas:");
         foreach (var d in lista)
         {
-            Console.WriteLine($" {d.Id} - {d.Titulo}: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy}");
+            Console.WriteLine($" Id: {d.Id} | Título: {d.Titulo} | Valor: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy}");
         }
-    
+        Console.WriteLine("================");
         connection.Close();
     }
 
@@ -177,7 +178,7 @@ class Despesa
             decimal valorDespesa = 0;
             try
             {
-                valorDespesa = decimal.Parse(Console.ReadLine().Trim());
+                valorDespesa = decimal.Parse(Console.ReadLine().Replace(",", ".").Replace(" ", ""));
             }
             catch (FormatException)
             {
@@ -237,7 +238,7 @@ class Despesa
             string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
             
             Console.Write("Digite a categoria da despesa (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
-            string categoria = Console.ReadLine().ToLower().Trim();
+            string categoria = Console.ReadLine().ToLower().Replace(" ", "");
 
             // validacao
             if (string.IsNullOrWhiteSpace(categoria))
