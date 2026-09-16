@@ -310,6 +310,11 @@ class Despesa
         connection.Close();
     }
 
+    public void ExcluirDespesa(MySqlConnection connection, int id)
+    
+
+   
+    }
 }
 
 
