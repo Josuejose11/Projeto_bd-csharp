@@ -1,5 +1,4 @@
 ﻿// CONEXAO SQL 
-using System.Runtime.InteropServices.Marshalling;
 using MySqlConnector;
 
 string connectionString = """
@@ -81,11 +80,11 @@ while (true)
             denovo();
             break;
         case "4":
-            // AtualizarDespesa(connection);
+            // despesa.AtualizarDespesa(connection);
             denovo();
             break;
         case "5":
-            // ExcluirDespesa(connection);
+            despesa.ExcluirDespesa(connection);
             denovo();
             break;
         default:
