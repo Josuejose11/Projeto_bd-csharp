@@ -11,10 +11,12 @@ class Despesa
 
 //CONSTRUTOR
     // Com parametros
-    public Despesa(decimal valor, string descricao, string categoria, DateTime data)
+    public Despesa(int id, decimal valor,  string descricao, string titulo, string categoria, DateTime data)
     {
+        this.id = id;
         this.valor = valor;
         this.descricao = descricao;
+        this.titulo = titulo;
         this.categoria = categoria;
         this.data = data;
     }
@@ -144,7 +146,6 @@ class Despesa
         }
     
         connection.Close();
-        
     }
 
     // metodo para salvar no banco de dados
@@ -162,6 +163,8 @@ class Despesa
         command.ExecuteNonQuery();
 
         connection.Close();
+
+        SalvarId(connection);
     }
 
     // metodo para cadastrar despesa, pegar os dados do usuario
@@ -294,6 +297,19 @@ class Despesa
         Console.WriteLine("Despesa cadastrada com sucesso!");
 
     }
+
+    // metodo para salvar o id da despesa cadastrada
+    private void SalvarId(MySqlConnection connection)
+    {
+        connection.Open();
+
+        string sql = "SELECT LAST_INSERT_ID()";
+        using var command = new MySqlCommand(sql, connection);
+        this.Id = Convert.ToInt32(command.ExecuteScalar());
+
+        connection.Close();
+    }
+
 }
 
 
