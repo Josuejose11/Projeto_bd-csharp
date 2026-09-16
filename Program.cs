@@ -14,9 +14,10 @@ using var connection = new MySqlConnection(connectionString);
 
 
 // MENU //
+bool continueW = true;
 Console.WriteLine("Bem-vindo ao Controle de Despesas!");
 var despesa = new Despesa();
-while (true)
+while (continueW)
 {   
     Console.WriteLine("Em nosso sistema você pode utilizar da maneira que desejar \nPara isso, escolha uma das opções abaixo:");    
     Console.WriteLine(" | 0 - Sair");
@@ -30,7 +31,8 @@ while (true)
     {
         case "0":
             Console.WriteLine("Saindo do programa...");
-            break;
+            continueW = false;
+            break; 
         case "1":
             despesa.CadastrarDespesa(connection);
             break;
