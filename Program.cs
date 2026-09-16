@@ -38,6 +38,15 @@ void denovo()
     }
 }
 
+// executar o banco de dados
+string createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS controle_despesas";
+using (var command = new MySqlCommand(createDatabaseQuery, connection))
+{
+    connection.Open();
+    command.ExecuteNonQuery();
+    connection.Close();
+}
+
 
 // MENU //
 Console.WriteLine("Bem-vindo ao Controle de Despesas!");
@@ -48,8 +57,9 @@ while (true)
     Console.WriteLine(" | 0 - Sair");
     Console.WriteLine(" | 1 - Cadastrar despesa");
     Console.WriteLine(" | 2 - Listar todas as despesas");
-    Console.WriteLine(" | 3 - Atualizar despesa");
-    Console.WriteLine(" | 4 - Excluir despesa");
+    Console.WriteLine(" | 3 - Buscar despesa");
+    Console.WriteLine(" | 4 - Atualizar despesa");
+    Console.WriteLine(" | 5 - Excluir despesa");
     Console.Write(" | Escreva aqui: ");
 
     switch (Console.ReadLine())
@@ -67,10 +77,14 @@ while (true)
             denovo();
             break;
         case "3":
-            // AtualizarDespesa(connection);
+            despesa.BuscarDespesa(connection);
             denovo();
             break;
         case "4":
+            // AtualizarDespesa(connection);
+            denovo();
+            break;
+        case "5":
             // ExcluirDespesa(connection);
             denovo();
             break;

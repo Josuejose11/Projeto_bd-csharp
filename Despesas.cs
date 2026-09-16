@@ -311,10 +311,63 @@ class Despesa
         connection.Close();
     }
 
-    public void ExcluirDespesa(MySqlConnection connection, int id)
     
+    // metodo para buscar despesa por id
+    public void BuscarDespesa(MySqlConnection connection)
+    {
+        while (true){
+            Console.Write("Digite o nome da despesa que deseja buscar: ");
+            string nome = Console.ReadLine().Trim();
+            if (string.IsNullOrWhiteSpace(nome))
+            {
+                Console.WriteLine("Nome inválido, Tente novamente.");
+                Console.WriteLine("---------------");
+                break;
+            }
 
-   
+            connection.Open();
+
+            string sql = "SELECT * FROM despesas WHERE titulo_dps LIKE @busca ORDER BY titulo_dps;";
+            using var command = new MySqlCommand(sql, connection);
+            if (command.Parameters.AddWithValue("@busca", $"%{nome}%") == null)
+            {
+                Console.WriteLine("A despesa não foi encontrada.");
+                connection.Close();
+                return;
+            }
+
+            using var reader = command.ExecuteReader();
+            var lista = new List<Despesa>();
+
+            while (reader.Read())
+            {
+                var despesa = new Despesa();
+                despesa.Id = reader.GetInt32("id_dps");
+                despesa.Valor = reader.GetDecimal("valor_dps");
+                despesa.Titulo = reader.GetString("titulo_dps");
+                despesa.Descricao = reader.IsDBNull(reader.GetOrdinal("descricao_dps")) ? null : reader.GetString("descricao_dps");
+                despesa.Categoria = reader.GetString("categoria_dps");
+                despesa.Data = reader.GetDateTime("data_dps");
+                lista.Add(despesa);
+            }
+        
+            if (lista.Count == 0)
+            {
+                Console.WriteLine($"Não encontramos nenhuma despesa com '{nome}'.");
+                Console.WriteLine("---------------");
+                connection.Close();
+                return;
+            }
+
+            Console.WriteLine("Despesas cadastradas:");
+            foreach (var d in lista)
+            {
+                Console.WriteLine($" Id: {d.Id} | Título: {d.Titulo} | Valor: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy}");
+            }
+            Console.WriteLine("================");
+            connection.Close();  
+
+        }
     }
 }
 
