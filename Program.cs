@@ -12,6 +12,7 @@ string connectionString = """
 
 using var connection = new MySqlConnection(connectionString);
 
+// def denovo 
 void denovo()
 {
     while (true)
@@ -36,8 +37,6 @@ void denovo()
     
     }
 }
-
-
 
 
 // MENU //
