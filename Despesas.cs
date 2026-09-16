@@ -261,7 +261,7 @@ class Despesa
             break;
         }
 
-        // Descrição da despesa
+        
         while (true)
         {
             Console.Write("Digite a descrição da despesa (Digite 0 caso não queira informar): ");
@@ -276,7 +276,7 @@ class Despesa
             break;
         }
 
-        // Data da despesa
+        
         while (true)
         {
             Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
@@ -299,7 +299,7 @@ class Despesa
 
     }
 
-    // metodo para salvar o id da despesa cadastrada
+    
     private void SalvarId(MySqlConnection connection)
     {
         connection.Open();
@@ -311,11 +311,64 @@ class Despesa
         connection.Close();
     }
 
-    public void ExcluirDespesa(MySqlConnection connection, int id)
-    
-
    
+public void ExcluirDespesa(MySqlConnection connection)
+{
+    LerDespesas(connection);
+
+    while (true)
+    {
+        Console.Write("Digite o ID da despesa que deseja excluir: ");
+
+        int id;
+
+        try
+        {
+            id = int.Parse(Console.ReadLine().Trim());
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("ID inválido. Tente novamente.");
+            Console.WriteLine("---------------");
+            continue;
+        }
+
+        connection.Open();
+
+        string sql = "SELECT * FROM despesas WHERE id_dps = @id";
+
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@id", id);
+
+        using var reader = command.ExecuteReader();
+
+        if (reader.Read())
+        {
+            connection.Close();
+
+            connection.Open();
+
+            string sqlExcluir = "DELETE FROM despesas WHERE id_dps = @id";
+
+            using var commandExcluir = new MySqlCommand(sqlExcluir, connection);
+            commandExcluir.Parameters.AddWithValue("@id", id);
+            commandExcluir.ExecuteNonQuery();
+
+            connection.Close();
+
+            Console.WriteLine("Despesa excluída com sucesso!");
+            break;
+        }
+        else
+        {
+            connection.Close();
+
+            Console.WriteLine("Despesa não encontrada. Tente novamente.");
+            Console.WriteLine("---------------");
+            continue;
+        }
     }
+}
 }
 
 

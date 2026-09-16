@@ -71,7 +71,7 @@ while (true)
             denovo();
             break;
         case "4":
-            // ExcluirDespesa(connection);
+            despesa.ExcluirDespesa(connection);
             denovo();
             break;
         default:
