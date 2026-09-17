@@ -311,12 +311,13 @@ class Despesa
         connection.Close();
     }
 
-    
-    // metodo para buscar despesa por id
+   
+
+
+ // metodo para buscar despesa por id
     public void BuscarDespesa(MySqlConnection connection)
     {
-        while (true)
-        {
+        while (true){
             Console.Write("Digite o nome da despesa que deseja buscar: ");
             string nome = Console.ReadLine().Trim();
             if (string.IsNullOrWhiteSpace(nome))
@@ -340,6 +341,7 @@ class Despesa
             using var reader = command.ExecuteReader();
             var lista = new List<Despesa>();
 
+   
             while (reader.Read())
             {
                 var despesa = new Despesa();
@@ -368,11 +370,9 @@ class Despesa
             Console.WriteLine("================");
             connection.Close();  
 
-            break;
         }
     }
-
-    // metodo para excluir despesa
+   
     public void ExcluirDespesa(MySqlConnection connection)
     {
         LerDespesas(connection);
