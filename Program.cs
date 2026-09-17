@@ -52,7 +52,7 @@ while (true)
     Console.WriteLine(" | 4 - Excluir despesa");
     Console.Write(" | Escreva aqui: ");
 
-    switch (Console.ReadLine())
+    switch (Console.ReadLine().Replace(" ", ""))
     {
         case "0":
             Console.WriteLine("Saindo do programa...");
