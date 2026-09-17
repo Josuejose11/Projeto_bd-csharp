@@ -423,7 +423,9 @@ class Despesa
 
                 connection.Close();
 
+                Console.WriteLine("===============");
                 Console.WriteLine("Despesa excluída com sucesso!");
+                Console.WriteLine("===============");
                 break;
             }
             // caso nao tenha encontrado a despesa, informa o usuario e pede para tentar novamente
@@ -439,6 +441,7 @@ class Despesa
                     string resposta = Console.ReadLine().Trim();
                     if (resposta == "1")
                     {
+                        Console.WriteLine("================");
                         break;
                     }
                     else if (resposta == "2")

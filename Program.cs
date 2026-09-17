@@ -1,8 +1,36 @@
-﻿// CONEXAO SQL 
-using System.Runtime.InteropServices.Marshalling;
+﻿// CONEXÃO SQL
 using MySqlConnector;
 
+// Conexão inicial: NÃO informa o banco
 string connectionString = """
+    Server=127.0.0.1;
+    Port=3306;
+    User ID=root;
+    Password=Senac2026;
+    """;
+
+using var connectioninicial  = new MySqlConnection(connectionString);
+
+connectioninicial.Open();
+// Cria o banco
+try
+{
+    string sqlBanco = """
+        CREATE DATABASE IF NOT EXISTS controle_despesas;
+        """;
+
+    using (var commandBanco = new MySqlCommand(sqlBanco, connectioninicial))
+    {
+        commandBanco.ExecuteNonQuery();
+    }
+}
+finally
+{
+    connectioninicial.Close();
+}
+
+// Agora conecta ao banco que acabou de ser criado
+string connectionStringBanco = """
     Server=127.0.0.1;
     Port=3306;
     Database=controle_despesas;
@@ -10,7 +38,31 @@ string connectionString = """
     Password=Senac2026;
     """;
 
-using var connection = new MySqlConnection(connectionString);
+using var connection = new MySqlConnection(connectionStringBanco);
+
+connection.Open();
+
+// Cria a tabela
+try
+{
+    string sqlTabela = """
+        CREATE TABLE IF NOT EXISTS despesas (
+            id_dps INT AUTO_INCREMENT PRIMARY KEY,
+            titulo_dps VARCHAR(150),
+            descricao_dps VARCHAR(300),
+            valor_dps DECIMAL(10,2),
+            categoria_dps VARCHAR(150),
+            data_dps DATETIME
+        );
+        """;
+
+    using var commandTabela = new MySqlCommand(sqlTabela, connection);
+    commandTabela.ExecuteNonQuery();
+}
+finally
+{
+    connection.Close();
+}
 
 // def denovo 
 void denovo()
@@ -37,7 +89,6 @@ void denovo()
     
     }
 }
-
 
 // MENU //
 Console.WriteLine("Bem-vindo ao Controle de Despesas!");
