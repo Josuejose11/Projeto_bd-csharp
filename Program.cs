@@ -67,7 +67,7 @@ while (true)
             denovo();
             break;
         case "3":
-            // AtualizarDespesa(connection);
+            despesa.AtualizarDespesa(connection);
             denovo();
             break;
         case "4":

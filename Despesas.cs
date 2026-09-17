@@ -163,9 +163,10 @@ class Despesa
         command.Parameters.AddWithValue("@data", this.data);
         command.ExecuteNonQuery();
 
+        SalvarId(connection);
         connection.Close();
 
-        SalvarId(connection);
+
     }
 
     // metodo para cadastrar despesa, pegar os dados do usuario
@@ -418,6 +419,106 @@ class Despesa
                 connection.Close();
 
                 Console.WriteLine("Despesa excluída com sucesso!");
+                break;
+            }
+            else
+            {
+                connection.Close();
+
+                Console.WriteLine("Despesa não encontrada. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+        }
+    }
+
+    public void AtualizarDespesa(MySqlConnection connection)
+    {
+        LerDespesas(connection);
+
+        while (true)
+        {
+            Console.Write("Digite o ID da despesa que deseja atualizar: ");
+
+            int id;
+
+            try
+            {
+                id = int.Parse(Console.ReadLine().Trim());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("ID inválido. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+
+            connection.Open();
+
+            string sql = "SELECT * FROM despesas WHERE id_dps = @id";
+
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            using var reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                var despesa = new Despesa();
+
+                despesa.Id = reader.GetInt32("id_dps");
+                despesa.Valor = reader.GetDecimal("valor_dps");
+                despesa.Titulo = reader.GetString("titulo_dps");
+                despesa.Descricao = reader.IsDBNull(reader.GetOrdinal("descricao_dps")) ? null : reader.GetString("descricao_dps");
+                despesa.Categoria = reader.GetString("categoria_dps");
+                despesa.Data = reader.GetDateTime("data_dps");
+
+                connection.Close();
+
+            // Pega os novos dados
+                Console.Write("Digite o novo valor da despesa: ");
+                despesa.Valor = decimal.Parse(Console.ReadLine().Replace(",", "."));
+
+                Console.Write("Digite o novo título da despesa: ");
+                despesa.Titulo = Console.ReadLine();
+
+                Console.Write("Digite a nova categoria da despesa: ");
+                despesa.Categoria = Console.ReadLine();
+
+                Console.Write("Digite a nova descrição da despesa: ");
+                string descricao = Console.ReadLine();
+                despesa.Descricao = descricao == "0" ? null : descricao;
+
+                Console.Write("Digite a nova data da despesa (yyyy-MM-dd): ");
+                despesa.Data = DateTime.Parse(Console.ReadLine());
+
+            // UPDATE
+                connection.Open();
+
+                string sqlUpdate = @"
+                    UPDATE despesas
+                    SET 
+                        valor_dps = @valor,
+                        titulo_dps = @titulo,
+                        descricao_dps = @descricao,
+                        categoria_dps = @categoria,
+                        data_dps = @data
+                    WHERE id_dps = @id";
+
+                using var commandUpdate = new MySqlCommand(sqlUpdate, connection);
+
+                commandUpdate.Parameters.AddWithValue("@valor", despesa.Valor);
+                commandUpdate.Parameters.AddWithValue("@titulo", despesa.Titulo);
+                commandUpdate.Parameters.AddWithValue("@descricao", despesa.Descricao);
+                commandUpdate.Parameters.AddWithValue("@categoria", despesa.Categoria);
+                commandUpdate.Parameters.AddWithValue("@data", despesa.Data);
+                commandUpdate.Parameters.AddWithValue("@id", despesa.Id);
+
+                commandUpdate.ExecuteNonQuery();
+
+                connection.Close();
+
+                Console.WriteLine("Despesa atualizada com sucesso!");
                 break;
             }
             else
