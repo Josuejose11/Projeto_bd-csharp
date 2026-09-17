@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabriel61500536\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {}
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabriel61500536\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabriel61500536\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
+        "projectUniqueName": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
         "projectName": "Projeto_bd-csharp",
-        "projectPath": "C:\\Users\\gabriel61500536\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
-        "packagesPath": "C:\\Users\\gabriel61500536\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabriel61500536\\Documents\\GitHub\\Projeto_bd-csharp\\obj\\",
+        "projectPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
+        "packagesPath": "C:\\Users\\josue61477096\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\gabriel61500536\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\josue61477096\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"

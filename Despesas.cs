@@ -374,62 +374,62 @@ class Despesa
 
     // metodo para excluir despesa
     public void ExcluirDespesa(MySqlConnection connection)
-{
-    LerDespesas(connection);
-
-    while (true)
     {
-        Console.Write("Digite o ID da despesa que deseja excluir: ");
+        LerDespesas(connection);
 
-        int id;
-
-        try
+        while (true)
         {
-            id = int.Parse(Console.ReadLine().Trim());
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("ID inválido. Tente novamente.");
-            Console.WriteLine("---------------");
-            continue;
-        }
+            Console.Write("Digite o ID da despesa que deseja excluir: ");
 
-        connection.Open();
+            int id;
 
-        string sql = "SELECT * FROM despesas WHERE id_dps = @id";
-
-        using var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddWithValue("@id", id);
-
-        using var reader = command.ExecuteReader();
-
-        if (reader.Read())
-        {
-            connection.Close();
+            try
+            {
+                id = int.Parse(Console.ReadLine().Trim());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("ID inválido. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
 
             connection.Open();
 
-            string sqlExcluir = "DELETE FROM despesas WHERE id_dps = @id";
+            string sql = "SELECT * FROM despesas WHERE id_dps = @id";
 
-            using var commandExcluir = new MySqlCommand(sqlExcluir, connection);
-            commandExcluir.Parameters.AddWithValue("@id", id);
-            commandExcluir.ExecuteNonQuery();
+            using var command = new MySqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@id", id);
 
-            connection.Close();
+            using var reader = command.ExecuteReader();
 
-            Console.WriteLine("Despesa excluída com sucesso!");
-            break;
-        }
-        else
-        {
-            connection.Close();
+            if (reader.Read())
+            {
+                connection.Close();
 
-            Console.WriteLine("Despesa não encontrada. Tente novamente.");
-            Console.WriteLine("---------------");
-            continue;
+                connection.Open();
+
+                string sqlExcluir = "DELETE FROM despesas WHERE id_dps = @id";
+
+                using var commandExcluir = new MySqlCommand(sqlExcluir, connection);
+                commandExcluir.Parameters.AddWithValue("@id", id);
+                commandExcluir.ExecuteNonQuery();
+
+                connection.Close();
+
+                Console.WriteLine("Despesa excluída com sucesso!");
+                break;
+            }
+            else
+            {
+                connection.Close();
+
+                Console.WriteLine("Despesa não encontrada. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
         }
     }
-}
 }
 
 
