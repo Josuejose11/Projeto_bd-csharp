@@ -262,22 +262,29 @@ class Despesa
             break;
         }
 
-        
+        // descricao da despesa
         while (true)
         {
             Console.Write("Digite a descrição da despesa (Digite 0 caso não queira informar): ");
-            string descricao = Console.ReadLine().Trim();
-            if (descricao == "")    
+            string descricao = Console.ReadLine()?.Trim();
+            if (descricao?.Length > 300)
+            {
+                Console.WriteLine("A descrição da despesa não pode ter mais de 300 caracteres. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+            else if (string.IsNullOrWhiteSpace(descricao))
             {
                 Console.WriteLine("Descrição inválida. Tente novamente.");
                 Console.WriteLine("---------------");
                 continue;
             }
+            
             this.Descricao = descricao == "0" ? null : descricao;
             break;
         }
 
-        
+        // data da despesa
         while (true)
         {
             Console.Write("Digite a data da despesa (formato: yyyy-MM-dd): ");
@@ -297,10 +304,9 @@ class Despesa
 
         this.SalvarDespesa(connection);
         Console.WriteLine("Despesa cadastrada com sucesso!");
-
     }
 
-    
+    // salva o id
     private void SalvarId(MySqlConnection connection)
     {
         connection.Open();
@@ -311,9 +317,6 @@ class Despesa
 
         connection.Close();
     }
-
-   
-
 
  // metodo para buscar despesa por id
     public void BuscarDespesa(MySqlConnection connection)
@@ -374,6 +377,7 @@ class Despesa
         }
     }
    
+    //exclui despesa
     public void ExcluirDespesa(MySqlConnection connection)
     {
         LerDespesas(connection);
@@ -397,6 +401,7 @@ class Despesa
 
             connection.Open();
 
+            // Verifica se a despesa existe antes de tentar excluir
             string sql = "SELECT * FROM despesas WHERE id_dps = @id";
 
             using var command = new MySqlCommand(sql, connection);
@@ -406,6 +411,7 @@ class Despesa
 
             if (reader.Read())
             {
+                // exclui despesa
                 connection.Close();
 
                 connection.Open();
@@ -418,16 +424,39 @@ class Despesa
 
                 connection.Close();
 
+                Console.WriteLine("===============");
                 Console.WriteLine("Despesa excluída com sucesso!");
+                Console.WriteLine("===============");
                 break;
             }
+            // caso nao tenha encontrado a despesa, informa o usuario e pede para tentar novamente
             else
             {
                 connection.Close();
 
-                Console.WriteLine("Despesa não encontrada. Tente novamente.");
+                Console.WriteLine("Despesa não encontrada. ");
                 Console.WriteLine("---------------");
-                continue;
+                while (true)
+                {
+                    Console.Write("Deseja tentar novamente? \n | 1 - Sim \n | 2 - Não \n | Escreva aqui: ");
+                    string resposta = Console.ReadLine().Trim();
+                    if (resposta == "1")
+                    {
+                        Console.WriteLine("================");
+                        break;
+                    }
+                    else if (resposta == "2")
+                    {
+                        Console.WriteLine("Você saiu!");
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        Console.WriteLine("---------------");
+                        continue;
+                    }
+                }
             }
         }
     }
