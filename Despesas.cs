@@ -462,104 +462,127 @@ class Despesa
     }
 
     public void AtualizarDespesa(MySqlConnection connection)
+{
+    LerDespesas(connection);
+
+    while (true)
     {
-        LerDespesas(connection);
+        Console.Write("Digite o ID da despesa que deseja atualizar: ");
+        int id;
 
-        while (true)
+        try
         {
-            Console.Write("Digite o ID da despesa que deseja atualizar: ");
+            id = int.Parse(Console.ReadLine().Trim());
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("ID inválido. Tente novamente.");
+            Console.WriteLine("---------------");
+            continue;
+        }
 
-            int id;
+        connection.Open();
 
-            try
+        string sql = "SELECT * FROM despesas WHERE id_dps = @id";
+
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@id", id);
+
+        using var reader = command.ExecuteReader();
+
+        if (reader.Read())
+        {
+            var despesa = new Despesa();
+
+            despesa.Id = reader.GetInt32("id_dps");
+            despesa.Valor = reader.GetDecimal("valor_dps");
+            despesa.Titulo = reader.GetString("titulo_dps");
+            despesa.Descricao = reader.IsDBNull(reader.GetOrdinal("descricao_dps")) ? null : reader.GetString("descricao_dps");
+            despesa.Categoria = reader.GetString("categoria_dps");
+            despesa.Data = reader.GetDateTime("data_dps");
+
+            connection.Close(); // Fecha a conexão do SELECT antes de ler os novos dados
+
+            Console.WriteLine("\n--- Atualização de Dados ---");
+            Console.WriteLine("Dica: Deixe em branco e aperte Enter para manter o valor atual.");
+
+            // 1. Atualizar Valor
+            Console.Write($"Novo valor (Atual: {despesa.Valor}): ");
+            string inputValor = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputValor))
             {
-                id = int.Parse(Console.ReadLine().Trim());
+                despesa.Valor = decimal.Parse(inputValor.Replace(",", "."));
             }
-            catch (FormatException)
+
+            // 2. Atualizar Título
+            Console.Write($"Novo título (Atual: {despesa.Titulo}): ");
+            string inputTitulo = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputTitulo))
             {
-                Console.WriteLine("ID inválido. Tente novamente.");
-                Console.WriteLine("---------------");
-                continue;
+                despesa.Titulo = inputTitulo;
             }
 
-            connection.Open();
-
-            string sql = "SELECT * FROM despesas WHERE id_dps = @id";
-
-            using var command = new MySqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            using var reader = command.ExecuteReader();
-
-            if (reader.Read())
+            // 3. Atualizar Categoria
+            Console.Write($"Nova categoria (Atual: {despesa.Categoria}): ");
+            string inputCategoria = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputCategoria))
             {
-                var despesa = new Despesa();
+                despesa.Categoria = inputCategoria;
+            }
 
-                despesa.Id = reader.GetInt32("id_dps");
-                despesa.Valor = reader.GetDecimal("valor_dps");
-                despesa.Titulo = reader.GetString("titulo_dps");
-                despesa.Descricao = reader.IsDBNull(reader.GetOrdinal("descricao_dps")) ? null : reader.GetString("descricao_dps");
-                despesa.Categoria = reader.GetString("categoria_dps");
-                despesa.Data = reader.GetDateTime("data_dps");
+            // 4. Atualizar Descrição
+            Console.Write($"Nova descrição (Atual: {despesa.Descricao ?? "Nenhuma"}) [Digite 0 para apagar]: ");
+            string inputDescricao = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputDescricao))
+            {
+                despesa.Descricao = inputDescricao == "0" ? null : inputDescricao;
+            }
 
-                connection.Close();
-
-            // Pega os novos dados
-                Console.Write("Digite o novo valor da despesa: ");
-                despesa.Valor = decimal.Parse(Console.ReadLine().Replace(",", "."));
-
-                Console.Write("Digite o novo título da despesa: ");
-                despesa.Titulo = Console.ReadLine();
-
-                Console.Write("Digite a nova categoria da despesa: ");
-                despesa.Categoria = Console.ReadLine();
-
-                Console.Write("Digite a nova descrição da despesa: ");
-                string descricao = Console.ReadLine();
-                despesa.Descricao = descricao == "0" ? null : descricao;
-
-                Console.Write("Digite a nova data da despesa (yyyy-MM-dd): ");
-                despesa.Data = DateTime.Parse(Console.ReadLine());
+            // 5. Atualizar Data
+            Console.Write($"Nova data (Atual: {despesa.Data:yyyy-MM-dd}): ");
+            string inputData = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(inputData))
+            {
+                despesa.Data = DateTime.Parse(inputData);
+            }
 
             // UPDATE
-                connection.Open();
+            connection.Open();
 
-                string sqlUpdate = @"
-                    UPDATE despesas
-                    SET 
-                        valor_dps = @valor,
-                        titulo_dps = @titulo,
-                        descricao_dps = @descricao,
-                        categoria_dps = @categoria,
-                        data_dps = @data
-                    WHERE id_dps = @id";
+            string sqlUpdate = @"
+                UPDATE despesas
+                SET 
+                    valor_dps = @valor,
+                    titulo_dps = @titulo,
+                    descricao_dps = @descricao,
+                    categoria_dps = @categoria,
+                    data_dps = @data
+                WHERE id_dps = @id";
 
-                using var commandUpdate = new MySqlCommand(sqlUpdate, connection);
+            using var commandUpdate = new MySqlCommand(sqlUpdate, connection);
 
-                commandUpdate.Parameters.AddWithValue("@valor", despesa.Valor);
-                commandUpdate.Parameters.AddWithValue("@titulo", despesa.Titulo);
-                commandUpdate.Parameters.AddWithValue("@descricao", despesa.Descricao);
-                commandUpdate.Parameters.AddWithValue("@categoria", despesa.Categoria);
-                commandUpdate.Parameters.AddWithValue("@data", despesa.Data);
-                commandUpdate.Parameters.AddWithValue("@id", despesa.Id);
+            commandUpdate.Parameters.AddWithValue("@valor", despesa.Valor);
+            commandUpdate.Parameters.AddWithValue("@titulo", despesa.Titulo);
+            commandUpdate.Parameters.AddWithValue("@descricao", despesa.Descricao);
+            commandUpdate.Parameters.AddWithValue("@categoria", despesa.Categoria);
+            commandUpdate.Parameters.AddWithValue("@data", despesa.Data);
+            commandUpdate.Parameters.AddWithValue("@id", despesa.Id);
 
-                commandUpdate.ExecuteNonQuery();
+            commandUpdate.ExecuteNonQuery();
+            connection.Close();
 
-                connection.Close();
-
-                Console.WriteLine("Despesa atualizada com sucesso!");
-                break;
-            }
-            else
-            {
-                connection.Close();
-
-                Console.WriteLine("Despesa não encontrada. Tente novamente.");
-                Console.WriteLine("---------------");
-                continue;
-            }
+            Console.WriteLine("Despesa atualizada com sucesso!\n");
+            break;
+        }
+        else
+        {
+            connection.Close();
+            Console.WriteLine("Despesa não encontrada. Tente novamente.");
+            Console.WriteLine("---------------");
+            continue;
         }
     }
+}
 }
 
 
