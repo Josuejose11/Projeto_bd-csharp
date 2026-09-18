@@ -143,7 +143,7 @@ class Despesa
         Console.WriteLine("Despesas cadastradas:");
         foreach (var d in lista)
         {
-            Console.WriteLine($" Id: {d.Id} | Título: {d.Titulo} | Valor: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy}");
+            Console.WriteLine($" Id: {d.Id} | Título: {d.Titulo} | Valor: R$ {d.Valor:F2} | Categoria: {d.Categoria} | Data: {d.Data:dd/MM/yyyy} | Descrição: {d.Descricao}");
         }
         Console.WriteLine("================");
         connection.Close();
@@ -163,8 +163,8 @@ class Despesa
         command.Parameters.AddWithValue("@data", this.data);
         command.ExecuteNonQuery();
 
-        SalvarId(connection);
         connection.Close();
+        SalvarId(connection);
 
 
     }

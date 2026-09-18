@@ -84,8 +84,9 @@ while (true)
     Console.WriteLine(" | 0 - Sair");
     Console.WriteLine(" | 1 - Cadastrar despesa");
     Console.WriteLine(" | 2 - Listar todas as despesas");
-    Console.WriteLine(" | 3 - Atualizar despesa");
-    Console.WriteLine(" | 4 - Excluir despesa");
+    Console.WriteLine(" | 3 - Buscar despesa");
+    Console.WriteLine(" | 4 - Atualizar despesa");
+    Console.WriteLine(" | 5 - Excluir despesa");
     Console.Write(" | Escreva aqui: ");
 
     switch (Console.ReadLine().Replace(" ", ""))
@@ -103,10 +104,14 @@ while (true)
             denovo();
             break;
         case "3":
-            despesa.AtualizarDespesa(connection);
+            despesa.BuscarDespesa(connection);
             denovo();
             break;
         case "4":
+            despesa.AtualizarDespesa(connection);
+            denovo();
+            break;
+        case "5":
             despesa.ExcluirDespesa(connection);
             denovo();
             break;
