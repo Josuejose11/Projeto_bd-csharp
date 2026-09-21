@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -510,7 +511,7 @@ class Despesa
 
         int id;
 
-        
+        // id 
         while (true)
         {
             Console.Write("Digite o ID da despesa que deseja atualizar: ");
@@ -527,6 +528,7 @@ class Despesa
             }
         }
 
+        // menu update
         while (true)
         {
             Console.WriteLine(
