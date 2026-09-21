@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using MySqlConnector;
 
@@ -404,7 +405,7 @@ class Despesa
 
             connection.Open();
 
-            // Verifica se a despesa existe antes de tentar excluir
+            
             string sql = "SELECT * FROM despesas WHERE id_dps = @id";
 
             using var command = new MySqlCommand(sql, connection);
@@ -432,7 +433,7 @@ class Despesa
                 Console.WriteLine("===============");
                 break;
             }
-            // caso nao tenha encontrado a despesa, informa o usuario e pede para tentar novamente
+           
             else
             {
                 connection.Close();
@@ -471,7 +472,7 @@ class Despesa
 
     int id;
 
-    // ID
+    
     while (true)
     {
         Console.Write("Digite o ID da despesa que deseja atualizar: ");
@@ -529,11 +530,10 @@ class Despesa
                     Console.WriteLine("---------------");
                     continue;
                 } 
-                Update(campo, valorDespesa, id);
+                Update(connection, campo, valorDespesa, id);
                 break;
-                
             }
-
+            break;
 
         // 2 - TÍTULO
         case "2":
@@ -554,123 +554,101 @@ class Despesa
                 Update(connection, campo, titulo, id);
                 break;
             }
-            
-
+            break;
 
         // 3 - CATEGORIA
         case "3":
             while (true)
+        {
+            string campo = "categoria_dps";
+            // Lista de categorias válidas
+            string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
+            
+            Console.Write("Nova categoria (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
+            string categoria = Console.ReadLine().ToLower().Replace(" ", "");
+
+            // validacao
+            if (string.IsNullOrWhiteSpace(categoria))
             {
-                string campo = "categoria_dps";
+                Console.WriteLine("Valor inválido, Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+            
+            if (categoriasValidas.Contains(categoria.ToLower()))
+            {
+                Update(connection, campo, categoria, id);
+            }
+            else
+            {
+                Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
+            break;
+        }
+            break;
 
-                Console.Write("Nova categoria: ");
-                string categoria = Console.ReadLine().Trim();
-
-                if (string.IsNullOrWhiteSpace(categoria))
-                {
-                    // Lista de categorias válidas
-                    string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
-                    campo = "categoria_dps";
-
-                    Console.Write($"Nova categoria (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
-                    
-                    string categoria = Console.ReadLine().ToLower().Replace(" ", "");
-
-                    // validacao
-                    if (string.IsNullOrWhiteSpace(categoria))
-                    {
-                        Console.WriteLine("Valor inválido, Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    
-                    if (categoriasValidas.Contains(categoria.ToLower()))
-                    {
-                        update(campo, valor, id);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    break;
-                }         
-
-            // 4. Atualizar Descrição
-            case "4":
-                while (true)
-                {
-                    campo = "descricao_dps";
-                    Console.Write("Nova descrição (Digite 0 caso não queira informar): ");
-                    string descricao = Console.ReadLine()?.Trim();
-                    if (descricao?.Length > 300)
-                    {
-                        Console.WriteLine("A descrição da despesa não pode ter mais de 300 caracteres. Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    else if (string.IsNullOrWhiteSpace(descricao))
-                    {
-                        Console.WriteLine("Descrição inválida. Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    update(campo, descricao, id);
-                    break;
-                }
-
-
-            // 5. Atualizar Data
-            case "5":
+         // 4. Atualizar Descrição
+        case "4":
             while (true)
             {
-                campo = "data_dps";
-                Console.Write("Nova data (formato: yyyy-MM-dd): ");
-                try
+                string campo = "descricao_dps";
+                Console.Write("Nova descrição (Digite 0 caso não queira informar): ");
+                string valor = Console.ReadLine()?.Trim();
+                
+                if (valor?.Length > 300)
                 {
-                    DateTime data = DateTime.Parse(Console.ReadLine().Trim());
-                    Update(connection, campo, data, id)
-                    break;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Formato de data inválido. Tente novamente.");
+                    Console.WriteLine("A descrição da despesa não pode ter mais de 300 caracteres. Tente novamente.");
                     Console.WriteLine("---------------");
                     continue;
                 }
-            }
-
-            
-        }
-
-
-        // 5 - DATA
-        case "5":
-            while (true)
-            {
-                string campo = "data_dps";
-
-                Console.Write("Nova data (yyyy-MM-dd): ");
-                string inputData = Console.ReadLine().Trim();
-
-                if (DateTime.TryParse(inputData, out DateTime data))
+                else if (string.IsNullOrWhiteSpace(valor))
                 {
-                    Update(connection, campo, data, id);
-                    break;
+                    Console.WriteLine("Descrição inválida. Tente novamente.");
+                    Console.WriteLine("---------------");
+                    continue;
                 }
-
-                Console.WriteLine("Data inválida. Use o formato yyyy-MM-dd.");
-                Console.WriteLine("---------------");
+                
+                if (valor == "0")
+                    {
+                        descricao = null;
+                    }
+                else{descricao = valor;} 
+                Update(connection, campo, descricao, id);
+                break;
             }
             break;
 
+        // 5. Atualizar Data
+        case "5":
+        while (true)
+        {
+            string campo = "data_dps";
+            Console.Write("Nova data (formato: yyyy-MM-dd): ");
+            try
+            {
+                DateTime data = DateTime.Parse(Console.ReadLine().Trim());
+                Update(connection, campo, data, id)
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Formato de data inválido. Tente novamente.");
+                Console.WriteLine("---------------");
+                continue;
+            }
 
-        default:
+        }
+        break;
+
+        // validacao
+        case default:
             Console.WriteLine("Opção inválida.");
             break;
     }
 }
+
 
 
 // UPDATE SQL
@@ -679,7 +657,7 @@ class Despesa
         string campo,
         object valor,
         int id)
-    {
+        {
         string sqlUpdate = $@"
             UPDATE despesas
             SET {campo} = @valor
