@@ -47,7 +47,7 @@ class Despesa
             else{valor = value;}
         }
     }
-    public string Descricao 
+    public string Descricao
     {
         get { return descricao; }
         set 
@@ -464,6 +464,26 @@ class Despesa
             }
         }
     }
+    // ve se existe
+    private bool ExisteDespesa(MySqlConnection connection, int id)
+{
+    string sql = @"
+        SELECT COUNT(*)
+        FROM despesas
+        WHERE id_dps = @id";
+
+    using var command = new MySqlCommand(sql, connection);
+    command.Parameters.AddWithValue("@id", id);
+
+    connection.Open();
+
+    int quantidade = Convert.ToInt32(command.ExecuteScalar());
+
+    connection.Close();
+
+    return quantidade > 0;
+}
+
 
     // Atualizar despesa
     public void AtualizarDespesa(MySqlConnection connection)
@@ -471,12 +491,11 @@ class Despesa
     LerDespesas(connection);
 
     int id;
-
     
     while (true)
     {
         Console.Write("Digite o ID da despesa que deseja atualizar: ");
-
+        
         try
         {
             id = int.Parse(Console.ReadLine().Trim());
@@ -487,8 +506,14 @@ class Despesa
             Console.WriteLine("ID inválido. Tente novamente.");
             Console.WriteLine("---------------");
         }
-    }
 
+    }
+    if (!ExisteDespesa(connection, id))
+        {
+            Console.WriteLine("Despesa não encontrada. Tente novamente.");
+            Console.WriteLine("---------------");
+            return;
+        }
     Console.WriteLine(
         "Qual campo você deseja atualizar?\n" +
         " | 1 - Valor\n" +
@@ -502,6 +527,7 @@ class Despesa
     {
         // 1 - VALOR
         case "1":
+
             while (true)
             {
                 string campo = "valor_dps";
