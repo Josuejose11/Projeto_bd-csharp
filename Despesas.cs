@@ -466,52 +466,52 @@ class Despesa
 
     // Atualizar despesa
     public void AtualizarDespesa(MySqlConnection connection)
+{
+    LerDespesas(connection);
+
+    int id;
+
+    // ID
+    while (true)
     {
-        LerDespesas(connection);
-        int id;
+        Console.Write("Digite o ID da despesa que deseja atualizar: ");
 
-        // id
-        while (true)
+        try
         {
-            Console.Write("Digite o ID da despesa que deseja atualizar: ");
-        
-            try
-            {
-                id = int.Parse(Console.ReadLine().Trim());
-                break;
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("ID inválido. Tente novamente.");
-                Console.WriteLine("---------------");
-                continue;
-            }            
+            id = int.Parse(Console.ReadLine().Trim());
+            break;
         }
-
-
-        Console.WriteLine("Qual campo você deseja atualizar? \n | 1 - Valor \n | 2 - Título \n | 3 - Categoria \n | 4 - Descrição \n | 5 - Data");
-        string campo;
-
-        switch (Console.ReadLine().Trim())
+        catch (FormatException)
         {
-            // 1. Atualizar Valor
-            case "1":
+            Console.WriteLine("ID inválido. Tente novamente.");
+            Console.WriteLine("---------------");
+        }
+    }
+
+    Console.WriteLine(
+        "Qual campo você deseja atualizar?\n" +
+        " | 1 - Valor\n" +
+        " | 2 - Título\n" +
+        " | 3 - Categoria\n" +
+        " | 4 - Descrição\n" +
+        " | 5 - Data"
+    );
+
+    switch (Console.ReadLine().Trim())
+    {
+        // 1 - VALOR
+        case "1":
             while (true)
             {
-                campo = "valor_dps";
+                string campo = "valor_dps";
 
-                Console.Write($"Novo valor: ");
-                decimal valorDespesa = 0;
+                Console.Write("Novo valor: ");
+
                 try
                 {
-                    valorDespesa = decimal.Parse(Console.ReadLine().Replace(",", ".").Replace(" ", ""));
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Formato de valor inválido. Tente novamente.");
-                    Console.WriteLine("---------------");
-                    continue;
-                }
+                    decimal valorDespesa = decimal.Parse(
+                        Console.ReadLine().Replace(",", ".").Trim()
+                    );
 
                 // validacao
                 if (string.IsNullOrWhiteSpace(valorDespesa.ToString()) || valorDespesa <= 0)
@@ -540,17 +540,55 @@ class Despesa
                     string titulo = Console.ReadLine().Trim();
                     if (titulo == "")    
                     {
-                        Console.WriteLine("Título inválido. Tente novamente.");
+                        Console.WriteLine("O valor deve ser maior que zero.");
                         Console.WriteLine("---------------");
                         continue;
                     }
-                    update(campo, valor, id);
-                    break;  
+
+                    Update(connection, campo, valorDespesa, id);
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Formato de valor inválido.");
+                    Console.WriteLine("---------------");
+                }
+            }
+            break;
+
+
+        // 2 - TÍTULO
+        case "2":
+            while (true)
+            {
+                string campo = "titulo_dps";
+
+                Console.Write("Novo título: ");
+                string titulo = Console.ReadLine().Trim();
+
+                if (string.IsNullOrWhiteSpace(titulo))
+                {
+                    Console.WriteLine("Título inválido. Tente novamente.");
+                    Console.WriteLine("---------------");
+                    continue;
                 }
 
-            // 3. Atualizar Categoria
-            case "3":
-                while (true)
+                Update(connection, campo, titulo, id);
+                break;
+            }
+            break;
+
+
+        // 3 - CATEGORIA
+        case "3":
+            while (true)
+            {
+                string campo = "categoria_dps";
+
+                Console.Write("Nova categoria: ");
+                string categoria = Console.ReadLine().Trim();
+
+                if (string.IsNullOrWhiteSpace(categoria))
                 {
                     // Lista de categorias válidas
                     string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
@@ -629,40 +667,66 @@ class Despesa
         }
 
 
-        
-        else
-        {
-            connection.Close();
-            Console.WriteLine("Despesa não encontrada. Tente novamente.");
-            Console.WriteLine("---------------");
-            continue;
-        }
-        
+        // 5 - DATA
+        case "5":
+            while (true)
+            {
+                string campo = "data_dps";
+
+                Console.Write("Nova data (yyyy-MM-dd): ");
+                string inputData = Console.ReadLine().Trim();
+
+                if (DateTime.TryParse(inputData, out DateTime data))
+                {
+                    Update(connection, campo, data, id);
+                    break;
+                }
+
+                Console.WriteLine("Data inválida. Use o formato yyyy-MM-dd.");
+                Console.WriteLine("---------------");
+            }
+            break;
+
+
+        default:
+            Console.WriteLine("Opção inválida.");
+            break;
     }
+}
 
-    // update sql
-    private void update(string campo, object valor, int id)
+
+// UPDATE SQL
+    private void Update(
+        MySqlConnection connection,
+        string campo,
+        object valor,
+        int id)
     {
-    // UPDATE
-        connection.Open();
-
-        string sqlUpdate = @"
+        string sqlUpdate = $@"
             UPDATE despesas
-            SET 
-                {campo} = @valor 
+            SET {campo} = @valor
             WHERE id_dps = @id";
+
+        connection.Open();
 
         using var commandUpdate = new MySqlCommand(sqlUpdate, connection);
 
-        commandUpdate.Parameters.AddWithValue("@id", id);
         commandUpdate.Parameters.AddWithValue("@valor", valor);
+        commandUpdate.Parameters.AddWithValue("@id", id);
 
+        int linhasAfetadas = commandUpdate.ExecuteNonQuery();
 
-        commandUpdate.ExecuteNonQuery();
         connection.Close();
 
-        Console.WriteLine("Despesa atualizada com sucesso!\n");
-        break;
+        if (linhasAfetadas > 0)
+        {
+            Console.WriteLine("Despesa atualizada com sucesso!\n");
+        }
+        else
+        {
+            Console.WriteLine("Despesa não encontrada.\n");
+        }
     }
+
 }
 
