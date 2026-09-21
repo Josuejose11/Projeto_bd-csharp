@@ -29,20 +29,7 @@ dotnet add package MySqlConnector
 
 ## Como configurar o banco
 
-1. Tenha um servidor MySQL rodando localmente ou remotamente.
-2. Execute o script `DB-C#.sql` para criar o banco e a tabela:
-
-   ```bash
-   mysql -u SEU_USUARIO -p < "DB-C#.sql"
-   ```
-
-3. Ajuste a string de conexão no código (`Program.cs`) com suas credenciais, por exemplo:
-
-   ```csharp
-   string connectionString = "Server=localhost;Database=controle_despesas;User=SEU_USUARIO;Password=SUA_SENHA;";
-   ```
-
-   > Recomendado: mover a string de conexão para uma variável de ambiente ou arquivo de configuração (`appsettings.json`) em vez de deixá-la fixa no código.
+Tenha o mysql aberto no seu dispositivo
 
 ## Como executar o projeto
 
