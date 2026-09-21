@@ -404,7 +404,7 @@ class Despesa
 
             connection.Open();
 
-            // Verifica se a despesa existe antes de tentar excluir
+            
             string sql = "SELECT * FROM despesas WHERE id_dps = @id";
 
             using var command = new MySqlCommand(sql, connection);
@@ -432,7 +432,7 @@ class Despesa
                 Console.WriteLine("===============");
                 break;
             }
-            // caso nao tenha encontrado a despesa, informa o usuario e pede para tentar novamente
+           
             else
             {
                 connection.Close();
@@ -471,7 +471,7 @@ class Despesa
 
     int id;
 
-    // ID
+    
     while (true)
     {
         Console.Write("Digite o ID da despesa que deseja atualizar: ");
@@ -513,32 +513,7 @@ class Despesa
                         Console.ReadLine().Replace(",", ".").Trim()
                     );
 
-                // validacao
-                if (string.IsNullOrWhiteSpace(valorDespesa.ToString()) || valorDespesa <= 0)
-                {
-                    Console.WriteLine("Digite um valor válido. Tente novamente.");
-                    Console.WriteLine("---------------");
-                    continue;
-                }
-
-                if (valorDespesa <= 0)
-                {
-                    Console.WriteLine("O valor da despesa não pode ser negativo ou igual a zero. Tente novamente.");
-                    Console.WriteLine("---------------");
-                    continue;
-                } 
-                update(campo, valorDespesa, id);
-                break;
-            }
-
-            // 2. Atualizar Título
-            case "2":
-            while (true)
-                {
-                    campo = "titulo_dps";
-                    Console.Write($"Novo título: ");
-                    string titulo = Console.ReadLine().Trim();
-                    if (titulo == "")    
+                    if (valorDespesa <= 0)
                     {
                         Console.WriteLine("O valor deve ser maior que zero.");
                         Console.WriteLine("---------------");
@@ -590,81 +565,28 @@ class Despesa
 
                 if (string.IsNullOrWhiteSpace(categoria))
                 {
-                    // Lista de categorias válidas
-                    string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
-                    campo = "categoria_dps";
-
-                    Console.Write($"Nova categoria (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
-                    
-                    string categoria = Console.ReadLine().ToLower().Replace(" ", "");
-
-                    // validacao
-                    if (string.IsNullOrWhiteSpace(categoria))
-                    {
-                        Console.WriteLine("Valor inválido, Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    
-                    if (categoriasValidas.Contains(categoria.ToLower()))
-                    {
-                        update(campo, valor, id);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    break;
-                }         
-
-            // 4. Atualizar Descrição
-            case "4":
-                while (true)
-                {
-                    campo = "descricao_dps";
-                    Console.Write("Nova descrição (Digite 0 caso não queira informar): ");
-                    string descricao = Console.ReadLine()?.Trim();
-                    if (descricao?.Length > 300)
-                    {
-                        Console.WriteLine("A descrição da despesa não pode ter mais de 300 caracteres. Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    else if (string.IsNullOrWhiteSpace(descricao))
-                    {
-                        Console.WriteLine("Descrição inválida. Tente novamente.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-                    update(campo, descricao, id);
-                    break;
-                }
-
-
-            // 5. Atualizar Data
-            case "5":
-            while (true)
-            {
-                campo = "data_dps";
-                Console.Write("Nova data (formato: yyyy-MM-dd): ");
-                try
-                {
-                    DateTime data = DateTime.Parse(Console.ReadLine().Trim());
-                    update(campo, data, id)
-                    break;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Formato de data inválido. Tente novamente.");
+                    Console.WriteLine("Categoria inválida. Tente novamente.");
                     Console.WriteLine("---------------");
                     continue;
                 }
-            }
 
-            
-        }
+                Update(connection, campo, categoria, id);
+                break;
+            }
+            break;
+
+
+        // 4 - DESCRIÇÃO
+        case "4":
+            {
+                string campo = "descricao_dps";
+
+                Console.Write("Nova descrição: ");
+                string descricao = Console.ReadLine().Trim();
+
+                Update(connection, campo, descricao, id);
+            }
+            break;
 
 
         // 5 - DATA
@@ -701,7 +623,7 @@ class Despesa
         string campo,
         object valor,
         int id)
-    {
+        {
         string sqlUpdate = $@"
             UPDATE despesas
             SET {campo} = @valor
