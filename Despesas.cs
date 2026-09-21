@@ -629,7 +629,7 @@ class Despesa
             try
             {
                 DateTime data = DateTime.Parse(Console.ReadLine().Trim());
-                Update(connection, campo, data, id)
+                Update(connection, campo, data, id);
                 break;
             }
             catch (FormatException)
@@ -643,7 +643,7 @@ class Despesa
         break;
 
         // validacao
-        case default:
+        default:
             Console.WriteLine("Opção inválida.");
             break;
     }
