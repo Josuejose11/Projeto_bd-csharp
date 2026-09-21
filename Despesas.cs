@@ -528,6 +528,7 @@ class Despesa
                     continue;
                 } 
                 update(campo, valorDespesa, id);
+                break;
             }
 
             // 2. Atualizar Título
@@ -551,29 +552,80 @@ class Despesa
             case "3":
                 while (true)
                 {
+                    // Lista de categorias válidas
+                    string[] categoriasValidas = ["alimentação", "alimentacao", "alimentaçao", "alimentacão", "transporte", "saúde", "saude", "educação", "educaçao", "educacão", "lazer"];
                     campo = "categoria_dps";
-                    Console.Write($"Nova categoria: ");
+
+                    Console.Write($"Nova categoria (Alimentação, Transporte, Saúde, Educação ou Lazer): ");
                     
+                    string categoria = Console.ReadLine().ToLower().Replace(" ", "");
+
+                    // validacao
+                    if (string.IsNullOrWhiteSpace(categoria))
+                    {
+                        Console.WriteLine("Valor inválido, Tente novamente.");
+                        Console.WriteLine("---------------");
+                        continue;
+                    }
                     
+                    if (categoriasValidas.Contains(categoria.ToLower()))
+                    {
+                        update(campo, valor, id);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Categoria inválida. As categorias válidas são: Alimentação, Transporte, Saúde, Educação, Lazer.\nTente novamente.");
+                        Console.WriteLine("---------------");
+                        continue;
+                    }
+                    break;
                 }         
 
             // 4. Atualizar Descrição
             case "4":
-            Console.Write($"Nova descrição: ");
-            string inputDescricao = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(inputDescricao))
-            {
-                despesa.Descricao = inputDescricao == "0" ? null : inputDescricao;
-            }
+                while (true)
+                {
+                    campo = "descricao_dps";
+                    Console.Write("Nova descrição (Digite 0 caso não queira informar): ");
+                    string descricao = Console.ReadLine()?.Trim();
+                    if (descricao?.Length > 300)
+                    {
+                        Console.WriteLine("A descrição da despesa não pode ter mais de 300 caracteres. Tente novamente.");
+                        Console.WriteLine("---------------");
+                        continue;
+                    }
+                    else if (string.IsNullOrWhiteSpace(descricao))
+                    {
+                        Console.WriteLine("Descrição inválida. Tente novamente.");
+                        Console.WriteLine("---------------");
+                        continue;
+                    }
+                    update(campo, descricao, id);
+                    break;
+                }
+
 
             // 5. Atualizar Data
             case "5":
-            Console.Write($"Nova data (yyyy-MM-dd): ");
-            string inputData = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(inputData))
+            while (true)
             {
-                despesa.Data = DateTime.Parse(inputData);
+                campo = "data_dps";
+                Console.Write("Nova data (formato: yyyy-MM-dd): ");
+                try
+                {
+                    DateTime data = DateTime.Parse(Console.ReadLine().Trim());
+                    update(campo, data, id)
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Formato de data inválido. Tente novamente.");
+                    Console.WriteLine("---------------");
+                    continue;
+                }
             }
+
+            
         }
 
 
