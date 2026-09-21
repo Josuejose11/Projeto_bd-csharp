@@ -506,12 +506,14 @@ class Despesa
                 string campo = "valor_dps";
 
                 Console.Write("Novo valor: ");
-
+                decimal valorDespesa;
                 try
                 {
-                    decimal valorDespesa = decimal.Parse(
+                    valorDespesa = decimal.Parse(
                         Console.ReadLine().Replace(",", ".").Trim()
                     );
+                }
+                catch{Console.WriteLine("Valor invalido"); continue;}
 
                 // validacao
                 if (string.IsNullOrWhiteSpace(valorDespesa.ToString()) || valorDespesa <= 0)
@@ -527,34 +529,10 @@ class Despesa
                     Console.WriteLine("---------------");
                     continue;
                 } 
-                update(campo, valorDespesa, id);
+                Update(campo, valorDespesa, id);
                 break;
+                
             }
-
-            // 2. Atualizar Título
-            case "2":
-            while (true)
-                {
-                    campo = "titulo_dps";
-                    Console.Write($"Novo título: ");
-                    string titulo = Console.ReadLine().Trim();
-                    if (titulo == "")    
-                    {
-                        Console.WriteLine("O valor deve ser maior que zero.");
-                        Console.WriteLine("---------------");
-                        continue;
-                    }
-
-                    Update(connection, campo, valorDespesa, id);
-                    break;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Formato de valor inválido.");
-                    Console.WriteLine("---------------");
-                }
-            }
-            break;
 
 
         // 2 - TÍTULO
@@ -576,7 +554,7 @@ class Despesa
                 Update(connection, campo, titulo, id);
                 break;
             }
-            break;
+            
 
 
         // 3 - CATEGORIA
@@ -652,7 +630,7 @@ class Despesa
                 try
                 {
                     DateTime data = DateTime.Parse(Console.ReadLine().Trim());
-                    update(campo, data, id)
+                    Update(connection, campo, data, id)
                     break;
                 }
                 catch (FormatException)
