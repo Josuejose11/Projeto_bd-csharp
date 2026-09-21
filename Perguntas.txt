@@ -1,0 +1,70 @@
+PERGUNTAS SOBRE O TRABALHO
+
+
+1.Conexão
+1.1 - Como C# realiza uma conexão com um banco de dados?
+
+R: Para conectar o C# a um banco de dados, primeiro é necessário criar um projeto C# e instalar pelo terminal a biblioteca correspondente ao banco escolhido, utilizando o gerenciador de pacotes NuGet. Depois no código, é necessário importar essa biblioteca e criar uma string de conexão contendo as informações necessárias para acessar o banco, como servidor, nome do banco, usuário e senha. Em seguida é criado um objeto de conexão e a conexão é aberta, com ela aberta o programa consegue enviar comandos SQL e receber dados do banco. Após terminar as operações, a conexão deve ser fechada.
+
+1.2 - Qual biblioteca/driver é utilizado pelo banco escolhido?
+
+R: A biblioteca ou driver utilizado depende do banco de dados escolhido, cada banco possui um driver específico que permite a comunicação com o C#, por exemplo podem ser utilizados MySqlConnector para "MySQL", Npgsql para "PostgreSQL" e Microsoft Data Sqlite para "SQLite"
+
+1.3 - Como essa biblioteca é adicionada ao projeto?
+
+R: É adicionada através do NuGet, que é o gerenciador de pacotes do .NET. Por meio dele, é possível pesquisar e instalar o driver necessário para o banco de dados escolhido
+
+1.4 - O que é uma string de conexão?
+
+R: Uma string de conexão é um texto que contém as informações necessárias para o programa C# se conectar ao banco de dados, como o endereço do servidor, nome do banco, usuário e senha
+
+1.5 - Quais informações normalmente aparecem em uma string de conexão?
+
+R: Normalmente uma string de conexão contém o endereço do servidor, o nome do banco de dados, o nome do usuário, a senha e, em alguns casos, a porta utilizada para a conexão
+
+2.Comandos SQL
+2.1 - Como executar comandos SQL utilizando C#?
+
+R: Primeiro é necessário abrir uma conexão com o banco de dados. Depois, o programa cria um comando contendo a instrução SQL desejada, como INSERT, SELECT, UPDATE ou DELETE, e envia esse comando para o banco através da biblioteca de conexão
+
+2.2 - Como realizar um INSERT?
+
+R: INSERT é utilizado para adicionar novos dados em uma tabela. No C# o programa cria um comando SQL com INSERT INTO, adiciona os valores que serão cadastrados e executa esse comando através da conexão com o banco de dados
+
+2.3 - Como realizar um SELECT?
+
+R: SELECT é utilizado para consultar dados de uma tabela. No C# o programa cria um comando SQL com SELECT, executa esse comando através da conexão e recebe os dados encontrados no banco de dados.
+
+2.4 - Como realizar um UPDATE?
+
+R: UPDATE é utilizado para alterar dados que já existem em uma tabela. No C# o programa cria um comando SQL com UPDATE, informa quais dados serão modificados e executa o comando através da conexão com o banco de dados.
+
+2.5 - Como realizar um DELETE?
+
+R: DELETE é utilizado para excluir dados de uma tabela. No C# o programa cria um comando SQL com DELETE, informa qual registro será removido e executa o comando através da conexão com o banco de dados.
+
+3.Consulta de dados
+3.1 - Como o C# recebe os dados retornados por um SELECT?
+
+R: O C# recebe os dados de um SELECT através de um leitor de dados, como o DataReader. Ele permite acessar os registros retornados pelo banco de dados e utilizar seus valores dentro do programa.
+
+3.2 - Como percorrer os resultados de uma consulta?
+
+R: Os resultados de uma consulta podem ser percorridos utilizando um DataReader junto com uma estrutura de repetição, como o while, assim o programa lê cada registro retornado pelo banco de dados até chegar ao final dos resultados.
+
+3.3 - Como transformar os dados retornados pelo banco em objetos de uma classe?
+
+R: Os dados retornados pelo banco podem ser usados para criar objetos de uma classe. O programa lê cada informação da consulta e atribui os valores às propriedades correspondentes do objeto.
+
+4.Segurança
+4.1 - O que são parâmetros em comandos SQL?
+
+R: Parâmetros são valores enviados separadamente para um comando SQL, em vez de serem escritos diretamente dentro dele. Eles são usados para inserir dados, como nome, idade ou preço, de forma mais organizada e segura.
+
+4.2 - Por que os parâmetros são importantes?
+
+R: Os parâmetros são importantes porque tornam os comandos SQL mais seguros e organizados, eles ajudam a evitar erros ao inserir dados e protegem o sistema contra ataques como "SQL Injection", impedindo que textos digitados pelo usuário sejam interpretados diretamente como comandos SQL.
+
+4.3 - O que pode acontecer quando o sistema monta comandos SQL diretamente usando textos digitados pelo usuário?
+
+R: Quando o sistema coloca diretamente no comando SQL um texto digitado pelo usuário, ele pode ficar vulnerável a "SQL Injection", isso pode permitir que alguém altere o comando original e consiga acessar, modificar ou excluir dados sem autorização, por isso, é recomendado utilizar parâmetros nos comandos SQL.
