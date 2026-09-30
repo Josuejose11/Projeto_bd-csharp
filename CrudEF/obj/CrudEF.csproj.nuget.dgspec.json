@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {}
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {}
   },
   "projects": {
-    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj": {
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
-        "projectName": "Projeto_bd-csharp",
-        "projectPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\Projeto_bd-csharp.csproj",
+        "projectUniqueName": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
+        "projectName": "CrudEF",
+        "projectPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
         "packagesPath": "C:\\Users\\josue61477096\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\obj\\",
+        "outputPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\josue61477096\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,12 +43,6 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "dependencies": {
-            "MySqlConnector": {
-              "target": "Package",
-              "version": "[2.6.2, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

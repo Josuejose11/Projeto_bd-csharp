@@ -1,0 +1,15 @@
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\bin\Debug\net10.0\CrudEF.exe
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\bin\Debug\net10.0\CrudEF.deps.json
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\bin\Debug\net10.0\CrudEF.runtimeconfig.json
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\bin\Debug\net10.0\CrudEF.dll
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\bin\Debug\net10.0\CrudEF.pdb
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.AssemblyInfoInputs.cache
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.AssemblyInfo.cs
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.csproj.CoreCompileInputs.cache
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.sourcelink.json
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.dll
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\refint\CrudEF.dll
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.pdb
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\CrudEF.genruntimeconfig.cache
+C:\Users\josue61477096\Documents\GitHub\Projeto_bd-csharp\CrudEF\obj\Debug\net10.0\ref\CrudEF.dll
