@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {}
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {}
   },
   "projects": {
-    "c:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
+        "projectUniqueName": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
         "projectName": "CrudEF",
-        "projectPath": "c:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
+        "projectPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\CrudEF.csproj",
         "packagesPath": "C:\\Users\\josue61477096\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\obj\\",
+        "outputPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\CrudEF\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\josue61477096\\AppData\\Roaming\\NuGet\\NuGet.Config"

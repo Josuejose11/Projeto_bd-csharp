@@ -1,4 +1,5 @@
 // Arquivo que conecta com o sql 
+// dotnet tool install --global dotnet-ef             //ef migrations remove                 //dotnet ef migrations add InitialCreate
 using CrudEF.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +12,6 @@ public class AppDbContext : DbContext
     {
         optionsBuilder.UseSqlite("Data Source=crud.dc");
     }
+
 
 }
