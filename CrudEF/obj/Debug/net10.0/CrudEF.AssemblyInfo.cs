@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CrudEF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6125125359956a2f064fe64ce0eb38843c8a835")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b1937995b98e317a5add7114048cbf5e30e9def")]
 [assembly: System.Reflection.AssemblyProductAttribute("CrudEF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CrudEF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
