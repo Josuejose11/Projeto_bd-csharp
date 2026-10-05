@@ -2,28 +2,32 @@
 using CrudEF.Models;
 using Microsoft.EntityFrameworkCore;
 
-await using var db = new AppDbContext();
+// // create 
+// var produto = await Produto.CreateProduto("Betoneira", 10.99m, 100);
 
-var produto = new Produto
+// Console.WriteLine($"Id: {produto.Id} | Nome: {produto.Nome} \n | Seu produto foi adicionado com sucesso!");
+
+// // read 
+// foreach (var p in await Produto.ListarProdutos())
+// {
+//     Console.WriteLine($"Id: {p.Id} | Nome: {p.Nome} | Preço: {p.Preco} | Estoque: {p.Estoque}");
+// }
+Console.Clear();
+Console.WriteLine("Seja bem vindo ao nosso sistema de produtos!");
+
+// MENU
+while (true)
 {
-    Nome = "Teclado",
-    Preco = 150.00m,
-    Estoque = 10 
-};
+    Console.WriteLine("Selecione a ação que você gostaria de usar: ");
+    Console.Write("| 0 - Sair \n | 1 - Cadastrar \n | 2 - Listar \n | 3 - Buscar \n | 4 - Atualizar \n | 5 - Excluir \n | Digite aqui: ");
+    Console.ReadLine();
+}
 
 
-Console.WriteLine("===================");
-Console.WriteLine("Sistema de produtos");
-Console.WriteLine("===================");
 
-// Adiciona produto ao banco de dados 
-db.Produtos.Add(produto);
 
-// Salva as alterações no banco de dados
-await db.SaveChangesAsync();
 
-// Exibe o id do preoduto adicionado a uma mensagem 
-Console.WriteLine($"Id: {produto.Id} | Produto '{produto.Nome}' Adicionado com sucesso!");
+
 
 
 
