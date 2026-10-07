@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices.Marshalling;
 using CrudEF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic;
 
 namespace CrudEF.Models;       // import        
 
@@ -35,17 +38,29 @@ public class Produto
     ////////////
     
     // Retorna uma lista de todos os produtos 
-    public static async Task<List<Produto>> ListarProdutos()
+    public static async void ListarProdutos()
     {
         await using var db = new AppDbContext();
-        return await db.Produtos.ToListAsync();
+        var produtos = await db.Produtos.ToListAsync();
+
+        foreach (var produto in produtos)
+        {
+            Console.WriteLine($" | Id: {produto.Id} | Nome: {produto.Nome} | Preço: {produto.Preco} | Estoque: {produto.Estoque}");
+        } 
     }
 
     // Busca por nome 
-    public static async Task<Produto?> BuscaPorNome(string nome )
+    public static async void BuscaPorNome(string nome )
     {
         await using var db = new AppDbContext();
-        return await db.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
+        var produto = await db.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
+        if (produto == null)
+        {
+            Console.WriteLine("Produto não encontrado");
+            return;
+        }
+        
+        Console.WriteLine($" | Id: {produto.Id} | Nome: {produto.Nome} | Preço: {produto.Preco} | Estoque: {produto.Estoque}");
     }
 
     // Retorna produto por id 
@@ -73,11 +88,22 @@ public class Produto
         .ToListAsync();
     }
 
+    // Valida o id 
+    public static async Task<bool> ValidarId(int id)
+    {
+        await using var db = new AppDbContext();
+        return await db.Produtos.AnyAsync(p => p.Id == id);
+    }
+
+
+
+
+
     //////////////
     /// UPDATE ///
     //////////////
 
-    public static async Task AtualizarProduto(int id, Produto novoProduto)
+    public static async Task AtualizarProduto(int id, string campo, object valor)
     {
         await using var db = new AppDbContext();
         var produto = await db.Produtos.FindAsync(id);
@@ -87,12 +113,26 @@ public class Produto
             return;
         }
 
-        produto.Nome = novoProduto.Nome ?? produto.Nome;
-        produto.Preco = novoProduto.Preco ?? produto.Preco;
-        produto.Estoque = novoProduto.Estoque ?? produto.Estoque;
+        switch (campo)
+        {
+            case "Nome":
+                produto.Nome = valor.ToString()!;
+                break;
+            case "Preco":
+                produto.Preco = decimal.Parse(valor.ToString()!);
+                break;
+            case "Estoque":
+                produto.Estoque = int.Parse(valor.ToString()!);
+                break;
+            default:
+                Console.WriteLine("Campo inválido");
+                return;
+        }
 
         await db.SaveChangesAsync();
+        Console.WriteLine("Produto atualizado com sucesso");
     }
+    
 
 
     //////////////

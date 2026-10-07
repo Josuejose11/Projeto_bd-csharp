@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuário\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj": {}
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuário\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj": {
+    "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuário\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj",
+        "projectUniqueName": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj",
         "projectName": "Projeto_bd-csharp",
-        "projectPath": "C:\\Users\\Usuário\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj",
-        "packagesPath": "C:\\Users\\Usuário\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuário\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\obj\\",
+        "projectPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\Projeto_bd-csharp.csproj",
+        "packagesPath": "C:\\Users\\josue61477096\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\josue61477096\\Documents\\GitHub\\Projeto_bd-csharp\\projeto\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Usuário\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\josue61477096\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -24,7 +24,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -39,11 +38,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.400"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "MySqlConnector": {
@@ -67,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
