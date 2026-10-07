@@ -13,6 +13,7 @@ void denovo()
         switch (resposta)
         {
             case "1":
+                Console.WriteLine("================");
                 return;
             case "2":
                 Console.WriteLine("Saindo do sistema...");
@@ -222,17 +223,32 @@ while (true)
                     break;
             }
 
-
-
-
-
-
-            await Produto.AtualizarProduto(id);
             break;
 
         // Excluir produto
         case "5":
-            await Produto.ExcluirProduto();
+        Console.WriteLine("-------------------");
+            Produto.ListarProdutos();
+
+            // vaçlidacao do id
+            Console.Write("Digite o id do produto que você quer excluir: ");
+            int idExcluir = int.Parse(Console.ReadLine().Trim());
+            if (idExcluir <= 0)
+            {
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Informe um id válido");
+                Console.WriteLine("-------------------");
+            }
+            bool BooleanoExcluir = await Produto.ValidarId(idExcluir);
+            if (!BooleanoExcluir)
+            {
+                Console.WriteLine("Id não encontrado, tente novamente");
+                break;
+            }
+            
+            // deletando produto
+            await Produto.DeletarProduto(idExcluir);
+            denovo();
             break;
 
         // validacao 

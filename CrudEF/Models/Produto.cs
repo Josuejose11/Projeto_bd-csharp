@@ -151,6 +151,7 @@ public class Produto
 
         db.Produtos.Remove(produto);
         await db.SaveChangesAsync();
+        Console.WriteLine("Produto excluido com sucesso!");
     }
     
 }
