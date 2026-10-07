@@ -4,6 +4,7 @@ using CrudEF.Data;
 using CrudEF.Models;
 using Microsoft.EntityFrameworkCore;
 
+// funcao para pedir para a pessoa fazer denovo
 void denovo()
 {
     while (true)
@@ -32,7 +33,7 @@ Console.WriteLine("============================================");
 Console.WriteLine("Seja bem vindo ao nosso sistema de produtos!");
 Console.WriteLine("============================================");
 
-// MENU
+// MENU PRODUTOS 
 while (true)
 {
     Console.WriteLine("Selecione a ação que você gostaria de usar: ");
@@ -260,7 +261,7 @@ while (true)
     }
 }
 
-
+    
 
 
 
