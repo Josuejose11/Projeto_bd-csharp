@@ -1,0 +1,23 @@
+# Compilação
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# VS Code
+.vscode/
+
+# Arquivos de usuário
+*.user
+*.suo
+
+# Arquivos de configuração locais
+appsettings.Development.json
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Logs
+*.log
