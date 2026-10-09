@@ -28,12 +28,12 @@ void denovo()
 }
 
 
+// MENU PRODUTOS 
 Console.Clear();
 Console.WriteLine("============================================");
 Console.WriteLine("Seja bem vindo ao nosso sistema de produtos!");
 Console.WriteLine("============================================");
 
-// MENU PRODUTOS 
 while (true)
 {
     Console.WriteLine("Selecione a ação que você gostaria de usar: ");
@@ -73,15 +73,12 @@ while (true)
             while(true)
             {
                 Console.Write(" | Preço: "); 
-                try
-                {
-                    preco = decimal.Parse(Console.ReadLine()!);
-                    
-                }
-                catch
+                
+                if(!decimal.TryParse(Console.ReadLine(), out preco))
                 {
                     Console.WriteLine("Preço inválido, tente novamente");
                     continue;
+                
                 }
                 if (preco < 0){Console.WriteLine("Seu preço não pode ser negativo");}
 
