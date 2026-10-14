@@ -28,10 +28,13 @@ void denovo()
 }
 
 
+
+
+
 // MENU PRODUTOS 
 Console.Clear();
 Console.WriteLine("============================================");
-Console.WriteLine("Seja bem vindo ao nosso sistema de produtos!");
+Console.WriteLine("Seja bem vindo ao nosso sistema de compras!");
 Console.WriteLine("============================================");
 
 while (true)

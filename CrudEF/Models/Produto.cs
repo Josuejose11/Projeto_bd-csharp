@@ -130,7 +130,7 @@ public class Produto
         }
 
         await db.SaveChangesAsync();
-        Console.WriteLine("Produto atualizado com sucesso");
+        Console.WriteLine("Produto atualizado com sucesso");    
     }
     
 
