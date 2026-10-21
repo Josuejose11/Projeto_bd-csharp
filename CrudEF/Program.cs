@@ -332,8 +332,9 @@ while (true)
                         break;
 
                     // validacao
-                    case default:
+                    default:
                         Console.WriteLine("Valor inválido, tente novamente");
+                        break;
 
                 }
 
@@ -452,7 +453,7 @@ while (true)
                                     break;
                                 }
                                 novaData = char.ToUpper(novaData[0]) + novaData.Substring(1).ToLower();
-                                await Produto.AtualizarProduto(id, "Data", novaData);
+                                await Produto.AtualizarPedido(id, "Data", novaData);
                                 break;
 
                             // valor
@@ -473,7 +474,7 @@ while (true)
                                     Console.WriteLine("Preço inválido, tente novamente");
                                     break;
                                 }
-                                await Produto.AtualizarProduto(id, "Valor", novoValor);
+                                await Produto.AtualizarPedido(id, "Valor", novoValor);
                                 break;
 
                             default:
@@ -484,6 +485,28 @@ while (true)
 
                     // Excluir pedido
                     case "5":
+                    while (true)
+                        {
+                            Console.WriteLine("-------------------");
+                            Pedido.ListarPedidos();
+                            Console.Write("Digite o id do pedido que você quer atualizar: ");
+                            int id = int.Parse(Console.ReadLine().Trim());
+                            
+                            // validacao
+                            if (id <= 0)
+                            {
+                                Console.WriteLine("-------------------");
+                                Console.WriteLine("Informe um id válido");
+                                Console.WriteLine("-------------------");
+                            }
+                            bool Booleano1 = await Pedido.ValidarId(id);
+                            if (!Booleano1)
+                            {
+                                Console.WriteLine("Id não encontrado, tente novamente");
+                                break;
+                            }
+                            
+                        }
 
                     
                     // validacao
@@ -493,8 +516,9 @@ while (true)
                 }
             }
 
-        case default:
+        default:
             Console.WriteLine("Valor inválido, tente novamente");
+            break;
             
 
 
