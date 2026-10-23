@@ -327,7 +327,7 @@ while (true)
                     // Listar cliente
                     case "2":
                         Console.WriteLine("-------------------");
-                        Cliente.ListarClientes();
+                        Cliente.LerClientes();
                         denovo();
                         break;
 
@@ -351,18 +351,18 @@ while (true)
                 var opcao = Console.ReadLine();
                 switch (opcao)
                 {
+
                     // adicionar pedido
                     case "1":
                         Console.WriteLine("-------------------");
                         Console.WriteLine("Digite as informações a seguir para o cadastro");
                         int clienteId;
                         int produtoId;
-                        int quantidade;
 
                         // ClienteId
                         while(true)
                         {
-                            Cliente.Ler_Cliente();
+                            Cliente.LerClientes();
                             Console.Write(" | Cliente Id: ");
                             if(!int.TryParse(Console.ReadLine(), out clienteId))
                             {
@@ -374,7 +374,7 @@ while (true)
                         // ProdutoId
                         while(true)
                         {
-                            Produto.Ler_Produto();
+                            Produto.ListarProdutos();
                             Console.Write(" | Produto Id: ");
                             if(!int.TryParse(Console.ReadLine(), out produtoId))
                             {
@@ -383,18 +383,8 @@ while (true)
                             break;
                         }
 
-                        // Quantidade
-                        while(true)
-                        {
-                            Console.Write(" | Quantidade: ");
-                            if(!int.TryParse(Console.ReadLine(), out quantidade))
-                            {
-                                Console.WriteLine("Quantidade inválida, tente novamente"); continue;
-                            }
-                            break;
-                        }
-
-                        await Pedido.CadastrarPedido(clienteId, produtoId, quantidade);
+                       
+                        await Pedido.CadastrarPedido(clienteId, produtoId);
                         denovo();
                         break;
 
@@ -426,7 +416,7 @@ while (true)
                             Console.WriteLine("Informe um id válido");
                             Console.WriteLine("-------------------");
                         }
-                        bool Booleano = await Pedido.ValidarId(id);
+                        bool Booleano = await Cliente.ValidarId(id);
                         if (!Booleano)
                         {
                             Console.WriteLine("Id não encontrado, tente novamente");
@@ -485,28 +475,29 @@ while (true)
 
                     // Excluir pedido
                     case "5":
-                    while (true)
-                        {
-                            Console.WriteLine("-------------------");
-                            Pedido.ListarPedidos();
-                            Console.Write("Digite o id do pedido que você quer atualizar: ");
-                            int id = int.Parse(Console.ReadLine().Trim());
-                            
-                            // validacao
-                            if (id <= 0)
+                        while (true)
                             {
                                 Console.WriteLine("-------------------");
-                                Console.WriteLine("Informe um id válido");
-                                Console.WriteLine("-------------------");
+                                Pedido.ListarPedidos();
+                                Console.Write("Digite o id do pedido que você quer atualizar: ");
+                                int id = int.Parse(Console.ReadLine().Trim());
+                                
+                                // validacao
+                                if (id <= 0)
+                                {
+                                    Console.WriteLine("-------------------");
+                                    Console.WriteLine("Informe um id válido");
+                                    Console.WriteLine("-------------------");
+                                }
+                                bool Booleano1 = await Pedido.ValidarId(id);
+                                if (!Booleano1)
+                                {
+                                    Console.WriteLine("Id não encontrado, tente novamente");
+                                    break;
+                                }
+                                
                             }
-                            bool Booleano1 = await Pedido.ValidarId(id);
-                            if (!Booleano1)
-                            {
-                                Console.WriteLine("Id não encontrado, tente novamente");
-                                break;
-                            }
-                            
-                        }
+                            break;
 
                     
                     // validacao

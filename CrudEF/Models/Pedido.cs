@@ -11,6 +11,46 @@ public class Pedido
     public int ClienteId {get; set;}
     public Cliente Cliente {get; set;} = null!;
 
+    
+
+
+    //////////////
+    /// CREATE ///  
+    //////////////
+    
+    public static async Task<Pedido> CadastrarPedido(int clienteId, decimal valor)
+    {
+        DateTime data = DateTime.Now;
+        await using var db = new AppDbContext();       // o Using abre e fecha conexao 
+        var pedido = new Pedido
+        {
+            ClienteId = clienteId,
+            Data = data,
+            Valor = valor
+        };
+        db.Pedidos.Add(pedido);
+        await db.SaveChangesAsync();
+        return pedido;
+    }
+
+    
+      
+    ////////////
+    /// READ ///  
+    ////////////
+    
+    // Retorna uma lista de todos os produtos 
+    public static async void ListarPedidos()
+    {
+        await using var db = new AppDbContext();
+        var pedidos = await db.Pedidos.ToListAsync();
+
+        foreach (var pedido in pedidos)
+        {
+            Console.WriteLine($" | Id: {pedido.Id} | Data: {pedido.Data} | Valor: {pedido.Valor} | Cliente Id: {pedido.ClienteId}");
+        } 
+    }
+
     // buscando pedidos de um cliente 
     public static async void BuscarPedidosDeCliente()
     {
