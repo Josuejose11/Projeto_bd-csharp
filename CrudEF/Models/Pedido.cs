@@ -84,4 +84,81 @@ public class Pedido
             }
         }
     }
+
+    //////////////
+    /// DELETE ///
+    //////////////
+    
+    // atualizando pedido pelo Id
+    public static async void AtualizarPedido(int id, string campo, object novoValor)
+    {
+        await using var db = new AppDbContext();
+        var pedido = await db.Pedidos.FindAsync(id);
+        if (pedido != null)
+        {
+            if (campo.ToLower() == "valor")
+            {
+                pedido.Valor = Convert.ToDecimal(novoValor);
+                await db.SaveChangesAsync();
+                Console.WriteLine($"Valor do pedido com id {id} atualizado com sucesso.");
+            }
+            else if (campo.ToLower() == "data")
+            {
+                pedido.Data = Convert.ToDateTime(novoValor);
+                await db.SaveChangesAsync();
+                Console.WriteLine($"Data do pedido com id {id} atualizada com sucesso.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Pedido com Id {id} não encontrado.");
+        }
+    }
+
+
+
+    //////////////
+    /// DELETE ///
+    //////////////
+    
+    // Excluindo pedido pelo Id
+    public static async void excluirPedido(int id)
+    {
+        await using var db = new AppDbContext();
+        var pedido = await db.Pedidos.FindAsync(id);
+        if (pedido != null)
+        {
+            db.Pedidos.Remove(pedido);
+            await db.SaveChangesAsync();
+            Console.WriteLine($"Pedido com Id {id} excluído com sucesso.");
+        }
+        else
+        {
+            Console.WriteLine($"Pedido com Id {id} não encontrado.");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

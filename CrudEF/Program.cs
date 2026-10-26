@@ -443,7 +443,7 @@ while (true)
                                     break;
                                 }
                                 novaData = char.ToUpper(novaData[0]) + novaData.Substring(1).ToLower();
-                                await Produto.AtualizarPedido(id, "Data", novaData);
+                                Pedido.AtualizarPedido(id, "Data", novaData);
                                 break;
 
                             // valor
@@ -464,7 +464,7 @@ while (true)
                                     Console.WriteLine("Preço inválido, tente novamente");
                                     break;
                                 }
-                                await Produto.AtualizarPedido(id, "Valor", novoValor);
+                                Pedido.AtualizarPedido(id, "Valor", novoValor);
                                 break;
 
                             default:
@@ -480,21 +480,23 @@ while (true)
                                 Console.WriteLine("-------------------");
                                 Pedido.ListarPedidos();
                                 Console.Write("Digite o id do pedido que você quer atualizar: ");
-                                int id = int.Parse(Console.ReadLine().Trim());
+                                int idd = int.Parse(Console.ReadLine().Trim());
                                 
                                 // validacao
-                                if (id <= 0)
+                                if (idd <= 0)
                                 {
                                     Console.WriteLine("-------------------");
                                     Console.WriteLine("Informe um id válido");
                                     Console.WriteLine("-------------------");
                                 }
-                                bool Booleano1 = await Pedido.ValidarId(id);
+                                bool Booleano1 = await Cliente.ValidarId(idd);
                                 if (!Booleano1)
                                 {
                                     Console.WriteLine("Id não encontrado, tente novamente");
                                     break;
                                 }
+                                Pedido.excluirPedido(idd);
+                                denovo();
                                 
                             }
                             break;
